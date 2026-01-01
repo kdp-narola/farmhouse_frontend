@@ -202,6 +202,13 @@ export default function AdminDashboard() {
                   pendingProperties?.map((property) => (
                     <PendingProperty key={property?._id} property={property} />
                   ))}
+                {pendingProperties?.length === 0 && (
+                  <div className="flex flex-col items-center justify-center">
+                    <h1 className="text-lg font-semibold text-gray-500 mb-2">
+                      Property Not Found
+                    </h1>
+                  </div>
+                )}
               </div>
             </div>
 

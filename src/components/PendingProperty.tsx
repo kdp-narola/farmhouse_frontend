@@ -2,8 +2,10 @@ import moment from "moment";
 import { Button } from "./ui/button";
 import { CheckCircle, MapPin, XCircle } from "lucide-react";
 import { pendingReservationAction } from "@/services/api-routes/booking";
+import { useList } from "@/contexts/ListingContext";
 
 const PendingProperty = ({ property }) => {
+  const { getPendingApprovalsList, adminDashboardDetail } = useList();
   const handleReservationApprovalStatus = async (status) => {
     try {
       const propertyId = property?._id;
@@ -11,6 +13,8 @@ const PendingProperty = ({ property }) => {
         status: status,
       };
       await pendingReservationAction(propertyId, payload);
+      await getPendingApprovalsList();
+      await adminDashboardDetail();
     } catch (error) {
       console.error("Error updating reservation status", error);
     }
