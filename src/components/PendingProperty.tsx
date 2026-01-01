@@ -44,7 +44,7 @@ const PendingProperty = ({ property }) => {
         </div>
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex gap-3 lg:w-[50%]">
         <Button
           variant={"default"}
           size={"sm"}
