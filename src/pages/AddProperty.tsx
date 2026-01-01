@@ -223,7 +223,7 @@ const AddProperty = () => {
       <Navbar />
       {view === "list" && (
         <div className="">
-          <div className="mx-auto px-8 pt-4">
+          <div className="mx-auto px-4 md:px-8 pt-4">
             <div className="flex items-center justify-between">
               <div className="flex flex-col items-start">
                 {/* <div> */}
@@ -248,14 +248,14 @@ const AddProperty = () => {
         </div>
       )}
 
-      <div className="mx-auto p-8">
+      <div className="mx-auto p-4 md:p-8">
         {view === "list" && (
           <div className="grid gap-6">
             {ownerProperty?.length > 0 &&
               ownerProperty?.map((p) => (
                 <div
                   key={p?._id}
-                  className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+                  className="bg-white rounded-xl shadow-sm p-4 md:p-6 hover:shadow-md transition-shadow"
                 >
                   <ConfirmationButton
                     variant={"ghost"}
@@ -269,8 +269,8 @@ const AddProperty = () => {
                     loading={""}
                     submitBtnName={"Yes"}
                   />
-                  <div className="flex gap-6 ">
-                    <div className="w-60 h-50 flex">
+                  <div className="flex flex-col sm:flex-row gap-6 ">
+                    <div className="w-full sm:w-60 h-50 flex">
                       <img
                         src={`${baseURL}${p?.images[0]}`}
                         alt="Property Image"
@@ -316,7 +316,7 @@ const AddProperty = () => {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-6 py-3">
+                      <div className="flex items-center gap-4 py-3 flex-wrap">
                         <div className="flex items-center gap-2 text-sm text-gray-600">
                           <Maximize className="w-4 h-4 text-gray-400" />
                           <span>{p?.area_sq} sq ft</span>
@@ -387,7 +387,7 @@ const AddProperty = () => {
 
             <div className="w-full mx-auto bg-white rounded-xl shadow-md p-6 space-y-6">
               {/* Steps */}
-              <div className="w-full max-w-4xl mx-auto p-8">
+              <div className="w-full max-w-4xl mx-auto p-4 md:p-8">
                 <div className="relative">
                   {/* Progress Line */}
                   <div className="absolute top-5 left-5 right-0 h-0.5 bg-gray-200">

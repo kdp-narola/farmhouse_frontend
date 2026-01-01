@@ -75,9 +75,9 @@ const LandingPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-violet-50">
       <Navbar />
 
-      <section className="relative p-8 overflow-hidden">
+      <section className="relative p-4 md:p-8 overflow-hidden">
         <div className="absolute inset-0 gradient-hero opacity-10" />
-        <div className="grid lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-2xl md:text-4xl font-bold">
@@ -119,7 +119,7 @@ const LandingPage = () => {
                 </Button>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-4">
+              <div className="grid lg:grid-cols-3 gap-4">
                 <div className="relative">
                   <MapPin className="absolute z-10 left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <Input
@@ -176,14 +176,14 @@ const LandingPage = () => {
               <img
                 src={heroImage}
                 alt="Beautiful rental property"
-                className="w-full h-[600px] object-cover animate-zoomInOut"
+                className="aspect-square object-cover animate-zoomInOut"
               />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="p-8 bg-white">
+      <section className="p-4 md:p-8 bg-white">
         <div className="">
           <div className="text-center mb-10">
             <h2 className="text-2xl font-bold mb-2 text-gray-800">
@@ -201,7 +201,7 @@ const LandingPage = () => {
                 onClick={() => onNavigate(`/property-detail/${property._id}`)}
                 className="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300"
               >
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative aspect-auto h-64 overflow-hidden">
                   <img
                     src={`${baseURL}/${property?.images[0]}`}
                     alt={property.title}

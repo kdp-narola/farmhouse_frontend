@@ -109,7 +109,7 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
       <Navbar />
-      <div className="mx-auto p-8">
+      <div className="mx-auto p-4 md:p-8">
         <div className="mb-8">
           <h1 className="text-2xl font-bold">
             <span className="bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">

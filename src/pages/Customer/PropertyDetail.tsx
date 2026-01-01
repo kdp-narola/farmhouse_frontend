@@ -257,14 +257,21 @@ const PropertyDetail = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       {!propertyDetailLoading ? (
-        <div className="p-8">
+        <div className="p-4 md:p-8">
           {/* Header */}
           <div className="mb-2">
             <h1 className="text-3xl font-bold capitalize">
               {propertyDetail?.title}
             </h1>
             <div className="flex items-center justify-between">
-              <div className="flex gap-2 ">
+              <div className="flex flex-col sm:flex-row gap-2 ">
+                <p className="flex items-center gap-1 text-gray-500">
+                  <MapPin className="w-4 h-4" />
+                  <span>
+                    {propertyDetail?.address?.city},{" "}
+                    {propertyDetail?.address?.state}
+                  </span>
+                </p>
                 {propertyDetail?.avgRate ? (
                   <p className="flex items-center gap-1">
                     <Star className="w-5 h-5 fill-highlight text-highlight" />
@@ -276,15 +283,9 @@ const PropertyDetail = () => {
                     </span>
                   </p>
                 ) : (
-                  <p className="text-gray-500">No reviews yet</p>
+                  <></>
+                  // <p className="text-gray-500">No reviews yet</p>
                 )}
-                <p className="flex items-center gap-1 text-gray-500">
-                  <MapPin className="w-4 h-4" />
-                  <span>
-                    {propertyDetail?.address?.city},{" "}
-                    {propertyDetail?.address?.state}
-                  </span>
-                </p>
               </div>
               <div className="flex gap-2">
                 <Button variant="ghost" size="icon" className="rounded-full">
@@ -299,7 +300,7 @@ const PropertyDetail = () => {
 
           {/* Image Gallery */}
           <div className="relative mb-8 rounded-3xl overflow-hidden shadow-lg group">
-            <div className="relative h-[500px]">
+            <div className="relative max-h-[500px]">
               {propertyDetail?.images?.length > 0 && (
                 <img
                   src={`${baseURL}/${propertyDetail?.images[currentImageIndex]}`}
