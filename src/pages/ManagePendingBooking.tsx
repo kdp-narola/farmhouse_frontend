@@ -35,7 +35,7 @@ const ManagePendingBooking = () => {
         pagination: true,
         page,
         limit,
-        sort: { checkIn: -1 },
+        sort: { createdAt: -1 },
         select:
           "title address.city address.state pricePerDay pricePerHours images avgRate",
         search: {

@@ -26,7 +26,7 @@ const SlotBookingDetails = ({ search, filter }) => {
         pagination: true,
         page: 1,
         limit: 10,
-        sort: { checkIn: -1 },
+        sort: { createdAt: -1 },
         select: "title address.city address.state avgRate",
         search: {
           keys: ["title", "address.city", "address.state", "fullName", "email"],
