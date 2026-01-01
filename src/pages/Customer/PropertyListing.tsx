@@ -186,7 +186,6 @@ const PropertyListing = () => {
     getPropertyList(payload);
   }, [page, limit, search, sort, payloadFilter]);
 
-  // Fetch amenities and categories on initial mount
   useEffect(() => {
     getAmenitiesList({ options: { pagination: false } });
     getCategoryList({ options: { pagination: false } });
@@ -409,8 +408,10 @@ const PropertyListing = () => {
           )}
         </div>
 
+        {/* <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6"> */}
         {property?.length > 0 && !propertyLoading ? (
           <Pagination
+            className={"grid md:grid-cols-3 lg:grid-cols-4 gap-6"}
             data={property}
             handleFunction={handleMapData}
             handleLimitChange={handleLimitChange}
@@ -426,14 +427,15 @@ const PropertyListing = () => {
             <Spinner className="size-8" />
           </div>
         )}
-        {property?.length === 0 && !propertyLoading && (
-          <div className="flex flex-col items-center justify-center">
-            <h1 className="text-xl font-semibold text-gray-500 mb-2">
-              Oops! Property Not Found
-            </h1>
-          </div>
-        )}
       </div>
+      {property?.length === 0 && !propertyLoading && (
+        <div className="flex flex-col items-center justify-center">
+          <h1 className="text-xl font-semibold text-gray-500 mb-2">
+            Oops! Property Not Found
+          </h1>
+        </div>
+      )}
+      {/* </div> */}
     </div>
   );
 };

@@ -3,30 +3,19 @@ import {
   Home,
   DollarSign,
   TrendingUp,
-  CheckCircle,
-  XCircle,
   Utensils,
   Hourglass,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useList } from "@/contexts/ListingContext";
-import {
-  pendingReservationAction,
-  pendingReservationListing,
-} from "@/services/api-routes/booking";
+import PendingProperty from "@/components/PendingProperty";
+import { USER_ROLE } from "@/constant/constant";
+import moment from "moment";
 
-const AdminStatsCard = ({
-  icon: Icon,
-  bgFrom,
-  bgTo,
-  label,
-  value,
-  icon2: Icon2,
-  trendText,
-}) => {
+const AdminStatsCard = ({ icon: Icon, bgFrom, bgTo, label, value }) => {
   return (
     <div
       className={`bg-gradient-to-br ${bgFrom} ${bgTo} text-white p-6 rounded-3xl shadow-lg`}
@@ -34,10 +23,6 @@ const AdminStatsCard = ({
       <Icon className="w-6 h-6 mb-3" />
       <p className="text-2xl font-bold">{value}</p>
       <p className="text-white/80">{label}</p>
-      <div className="mt-2 flex items-center gap-2 text-sm">
-        {<Icon2 className="w-4 h-4" />}
-        <span>{trendText}</span>
-      </div>
     </div>
   );
 };
@@ -71,72 +56,29 @@ export default function AdminDashboard() {
     adminDashboardDetail,
     pendingProperties,
     getPendingApprovalsList,
+    userList,
+    getUserList,
   } = useList();
-  const [reservationApprovalStatus, setReservationApprovalStatus] =
-    useState("");
 
-  const stats = {
-    totalUsers: 1247,
-    totalProperties: 342,
-    totalBookings: 856,
-    totalRevenue: 125340,
-    activeBookings: 45,
-    pendingProperties: 12,
-  };
+  console.log("userList from admin dashboard", userList);
+  const recentUsers = userList?.data ?? [];
 
-  // const pendingProperties = [
+  // const recentUsers = [
   //   {
   //     id: "1",
-  //     title: "Coastal Villa",
-  //     owner: "Michael Brown",
-  //     location: "Malibu, CA",
-  //     priceDaily: 800,
-  //     submittedDate: "2025-11-05",
+  //     name: "John Doe",
+  //     email: "john@example.com",
+  //     role: "customer",
+  //     joinedDate: "2025-11-05",
   //   },
   //   {
   //     id: "2",
-  //     title: "Industrial Warehouse",
-  //     owner: "Lisa Chen",
-  //     location: "Brooklyn, NY",
-  //     priceDaily: 650,
-  //     submittedDate: "2025-11-06",
+  //     name: "Sarah Wilson",
+  //     email: "sarah@example.com",
+  //     role: "owner",
+  //     joinedDate: "2025-11-06",
   //   },
   // ];
-
-  const recentUsers = [
-    {
-      id: "1",
-      name: "John Doe",
-      email: "john@example.com",
-      role: "customer",
-      joinedDate: "2025-11-05",
-    },
-    {
-      id: "2",
-      name: "Sarah Wilson",
-      email: "sarah@example.com",
-      role: "owner",
-      joinedDate: "2025-11-06",
-    },
-  ];
-
-  const handleReservationApprovalStatus = async () => {
-    try {
-      const res = await pendingReservationAction("1");
-      console.log("res", res);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const handleApprove = (id) => {
-    console.log("id", id);
-    setReservationApprovalStatus("CONFIRMED");
-  };
-  const handleReject = (id) => {
-    console.log("id", id);
-    setReservationApprovalStatus("CANCELLED");
-  };
 
   useEffect(() => {
     const payload = {
@@ -149,6 +91,19 @@ export default function AdminDashboard() {
     };
     getAdminDashboardDetail();
     getPendingApprovalsList(payload);
+    getUserList({
+      options: {
+        page: 1,
+        limit: 3,
+        search: {
+          keys: ["fullName", "email"],
+          value: "",
+        },
+      },
+      filter: {
+        role: "",
+      },
+    });
   }, []);
 
   return (
@@ -171,32 +126,24 @@ export default function AdminDashboard() {
             icon={Users}
             bgFrom="from-teal-500"
             bgTo="to-teal-400"
-            // value={stats.totalUsers.toLocaleString()}
-            value={adminDashboardDetail?.userCount}
+            value={adminDashboardDetail?.totalUsers}
             label="Total Users"
-            icon2={TrendingUp}
-            trendText="+12% this month"
           />
 
           <AdminStatsCard
             icon={Home}
             bgFrom="from-pink-500"
             bgTo="to-pink-400"
-            value={adminDashboardDetail?.propertyCount}
-            // value={stats.totalProperties}
+            value={adminDashboardDetail?.totalProperties}
             label="Active Properties"
-            trendText={`${stats.pendingProperties} pending`}
-            icon2={Hourglass}
           />
 
           <AdminStatsCard
             icon={DollarSign}
             bgFrom="from-violet-500"
             bgTo="to-violet-400"
-            value={`$${stats.totalRevenue.toLocaleString()}`}
+            value={`$${adminDashboardDetail?.totalRevenue}`}
             label="Platform Revenue"
-            icon2={TrendingUp}
-            trendText="+18% this month"
           />
         </div>
 
@@ -240,99 +187,70 @@ export default function AdminDashboard() {
                 <h2 className="text-xl font-bold text-gray-800">
                   Pending Approvals
                 </h2>
-                <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-semibold">
-                  {pendingProperties.length} pending
-                </span>
+                <div className="flex gap-2">
+                  <Button
+                    variant={"link"}
+                    onClick={() => onNavigate("/pending-bookings")}
+                    className="text-violet-600 hover:text-violet-700"
+                  >
+                    View All
+                  </Button>
+                </div>
               </div>
 
               <div className="space-y-4">
-                {pendingProperties.map((property) => (
-                  <div
-                    key={property?._id}
-                    className="flex flex-col gap-4 p-4 bg-muted/30 rounded-2xl hover-lift cursor-pointer"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="font-bold text-gray-800 mb-1">
-                          {property?.property?.title}
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                          Booked by : {property?.bookingUser?.fullName}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {property?.property?.address?.city},{" "}
-                          {property?.property?.address?.state}
-                        </p>
-                      </div>
-
-                      <div className="text-right">
-                        <p className="font-bold text-violet-500">
-                          ${property?.property?.pricePerDay}/day
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {property?.submittedDate}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-3">
-                      <Button
-                        variant={"default"}
-                        size={"sm"}
-                        className="w-full p-0"
-                        onClick={() => handleApprove(property._id)}
-                      >
-                        <CheckCircle className="w-2 h-2" />
-                        Approve
-                      </Button>
-                      <Button
-                        variant={"outline"}
-                        size={"sm"}
-                        className="w-full p-0"
-                        onClick={() => handleReject(property._id)}
-                      >
-                        <XCircle className="w-2 h-2" />
-                        Reject
-                      </Button>
-                      {/* <Button
-                        variant={"ghost"}
-                        size={"sm"}
-                        className="bg-gray-100"
-                      >
-                        Details
-                      </Button> */}
-                    </div>
-                  </div>
-                ))}
+                {pendingProperties?.length > 0 &&
+                  pendingProperties?.map((property) => (
+                    <PendingProperty key={property?._id} property={property} />
+                  ))}
               </div>
             </div>
 
             <div className="bg-white rounded-3xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-6">
+              {/* <h2 className="text-xl font-bold text-gray-800 mb-6">
                 Recent Users
-              </h2>
+              </h2> */}
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-800">
+                  Recent Users
+                </h2>
+                <div className="flex gap-2">
+                  <Button
+                    variant={"link"}
+                    onClick={() => onNavigate("/admin-users")}
+                    className="text-violet-600 hover:text-violet-700"
+                  >
+                    View All
+                  </Button>
+                </div>
+              </div>
               <div className="space-y-3">
-                {recentUsers.map((user) => (
+                {recentUsers?.slice(0, 3)?.map((user) => (
                   <div
-                    key={user.id}
+                    key={user._id}
                     className="flex items-center justify-between p-4 rounded-xl border-2 border-gray-100 hover:bg-gray-50 transition-colors"
                   >
                     <div>
-                      <p className="font-semibold text-gray-800">{user.name}</p>
+                      <p className="font-semibold text-gray-800 capitalize">
+                        {user.fullName}
+                      </p>
                       <p className="text-sm text-gray-500">{user.email}</p>
                     </div>
                     <div className="text-right flex flex-col">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          user.role === "owner"
-                            ? "bg-violet-100 text-violet-700"
-                            : "bg-teal-100 text-teal-700"
+                          user.role === USER_ROLE.OWNER
+                            ? "bg-teal-100 text-teal-700"
+                            : user.role === USER_ROLE.ADMIN
+                            ? "bg-pink-100 text-pink-700"
+                            : "bg-violet-100 text-violet-700"
                         }`}
                       >
                         {user.role}
                       </span>
                       <span className="text-xs text-gray-500 mt-1">
-                        {user.joinedDate}
+                        {moment(user.createdAt).format("DD-MM-yy")}
+                        {/* {user.createdAt} */}
                       </span>
                     </div>
                   </div>
@@ -347,17 +265,20 @@ export default function AdminDashboard() {
               <div className="space-y-4">
                 <Stats
                   color={"teal"}
-                  number={adminDashboardDetail?.totalReservationCount}
-                  // number={stats.totalBookings}
+                  number={adminDashboardDetail?.totalConfirmedReservations}
                   label={"Total Bookings"}
                 />
                 <Stats
                   color={"pink"}
-                  number={adminDashboardDetail?.upcomingReservationCount}
-                  // number={stats.activeBookings}
+                  number={adminDashboardDetail?.pendingReservations}
                   label={"Active Bookings"}
                 />
-                <Stats color={"violet"} number={"96%"} label={"Success Rate"} />
+                {/* <Stats color={"violet"} number={"96%"} label={"Success Rate"} /> */}
+                <Stats
+                  color={"violet"}
+                  number={adminDashboardDetail?.successRate + "%"}
+                  label={"Success Rate"}
+                />
               </div>
             </div>
 

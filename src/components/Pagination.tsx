@@ -11,6 +11,7 @@ import {
 import { Button } from "./ui/button";
 
 const Pagination = ({
+  className,
   data,
   handleFunction,
   handleLimitChange,
@@ -24,9 +25,7 @@ const Pagination = ({
   return (
     <>
       <div className="space-y-4">
-        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {handleFunction}
-        </div>
+        <div className={className}>{handleFunction}</div>
         {data?.length > 0 && (
           <div className="flex justify-between">
             <DropdownMenu>

@@ -90,9 +90,12 @@ export const deniedPayment = async (userData) => {
   }
 };
 
-export const pendingReservationAction = async (reservationId) => {
+export const pendingReservationAction = async (reservationId, userData) => {
   try {
-    const response = await axiosInstance.patch(`/reservation/${reservationId}`);
+    const response = await axiosInstance.patch(
+      `/reservation/${reservationId}`,
+      userData
+    );
     return response;
   } catch (error) {
     throw error || "Unknown Error";

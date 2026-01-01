@@ -11,7 +11,8 @@ export const userRecords = async (userData) => {
 
 export const dashboardDetails = async () => {
   try {
-    const response = await axiosInstance.get("/admin/dashboardDetails");
+    const response = await axiosInstance.get("/statistics");
+    // const response = await axiosInstance.get("/admin/dashboardDetails");
     return response;
   } catch (error) {
     throw error || "Unknown Error";

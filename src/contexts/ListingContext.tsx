@@ -43,6 +43,8 @@ const ListingProvider = ({ children }) => {
   const [pendingPropertiesLoading, setPendingPropertiesLoading] =
     useState(false);
   const [pendingProperties, setPendingProperties] = useState([]);
+  const [pendingPropertiesPagination, setPendingPropertiesPagination] =
+    useState({});
 
   const getPropertyList = async (userData) => {
     setPropertyLoading(true);
@@ -147,6 +149,7 @@ const ListingProvider = ({ children }) => {
     try {
       const res = await pendingReservationListing(userData);
       setPendingProperties(res.data.data.data);
+      setPendingPropertiesPagination(res.data.data.pagination);
     } catch (error) {
       console.log("error", error);
     } finally {
@@ -184,6 +187,7 @@ const ListingProvider = ({ children }) => {
         userList,
         getUserList,
         pendingPropertiesLoading,
+        pendingPropertiesPagination,
         pendingProperties,
         getPendingApprovalsList,
       }}
