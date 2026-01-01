@@ -138,9 +138,17 @@ const CustomerDashboard = () => {
               </div>
 
               <div className="space-y-4">
-                {pendingProperties.map((booking) => (
-                  <BookingCard key={booking._id} booking={booking} />
-                ))}
+                {pendingProperties?.length > 0 &&
+                  pendingProperties?.map((booking) => (
+                    <BookingCard key={booking._id} booking={booking} />
+                  ))}
+                {pendingProperties?.length === 0 && (
+                  <div className="flex flex-col items-center justify-center">
+                    <h1 className="text-xl font-semibold text-gray-500 mb-2">
+                      Oops! Property Not Found
+                    </h1>
+                  </div>
+                )}
               </div>
             </div>
           </div>
