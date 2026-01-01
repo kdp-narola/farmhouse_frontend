@@ -55,7 +55,7 @@ const CustomerDashboard = () => {
       options: {
         page: 1,
         limit: 3,
-        sort: { checkIn: -1 },
+        sort: { createdAt: -1 },
         select: "title address.city address.state pricePerDay images",
       },
     };
