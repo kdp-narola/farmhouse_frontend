@@ -91,7 +91,7 @@ const CustomerDashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-violet-50">
       <Navbar />
 
-      <div className="mx-auto p-8">
+      <div className="mx-auto p-4 md:p-8">
         <div className="mb-8">
           <h1 className="text-2xl font-bold">
             <span className="text-gray-800">Welcome back, </span>

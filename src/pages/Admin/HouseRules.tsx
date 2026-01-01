@@ -60,7 +60,7 @@ const HouseRules = () => {
 
   return (
     <div className="">
-      <div className="mx-auto p-8">
+      <div className="mx-auto p-4 md:p-8">
         {/* <div className='flex justify-between mb-4'>
           <div>
             <h2 className="text-2xl font-bold text-gray-800">House Rules Management</h2>
