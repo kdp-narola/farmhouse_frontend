@@ -87,6 +87,90 @@ const CustomerDashboard = () => {
   }
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+  const BookingCard = ({ booking }) => {
+    const checkinDate = convertUTC(
+        booking?.checkIn,
+        userTimeZone
+      );
+      const checkoutDate = convertUTC(
+        booking?.checkOut,
+        userTimeZone
+      );
+  return (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+      <div className="flex flex-col sm:flex-row">
+        {/* Property Image */}
+        <div className="sm:w-48 md:w-64 h-48 sm:h-auto flex-shrink-0">
+          <img 
+            src={`${baseURL}/${booking?.property?.images[0]}`}
+            alt={booking.property.title}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        
+        {/* Content */}
+        <div className="flex-1 p-4">
+          {/* Header: Title and Price */}
+          <div className="flex justify-between items-start mb-3">
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                {booking.property.title}
+              </h3>
+              <div className="flex items-center text-gray-600 text-sm">
+                <MapPin className="w-4 h-4 mr-1" />
+                {booking.property.address.city}, {booking.property.address.state}
+              </div>
+            </div>
+            <div className="text-right ml-4">
+              <div className="text-2xl font-bold text-violet-600">
+                ${booking.finalAmount}
+              </div>
+              <div className="text-xs text-gray-500">{booking.bookingType}</div>
+            </div>
+          </div>
+          
+          {/* Dates */}
+          <div className="grid grid-cols-2 w-full gap-4 sm:gap-12 rounded-lg mb-3">
+            <div className="flex items-start bg-gray-50 p-2 rounded-md">
+              <Calendar className="w-4 h-4 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
+              <div>
+                <div className="text-xs text-gray-500 font-medium">Check-in</div>
+                <div className="text-xs sm:text-sm font-semibold text-gray-900">{checkinDate.date}</div>
+                <div className="text-xs text-gray-600 flex items-center mt-0.5">
+                  {checkinDate.time}
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-start bg-gray-50 p-2 rounded-md">
+              <Calendar className="w-4 h-4 text-violet-600 mr-2 mt-0.5 flex-shrink-0" />
+              <div>
+                <div className="text-xs text-gray-500 font-medium">Check-out</div>
+                <div className="text-xs sm:text-sm font-semibold text-gray-900">{checkoutDate.date}</div>
+                <div className="text-xs text-gray-600 flex items-center mt-0.5">
+                  {checkoutDate.time}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Status Badges */}
+          <div className="flex flex-col sm:flex-row gap-2 md:items-center">
+            <div className="flex gap-1">
+              <span className="text-xs text-gray-500 font-medium">Reservation:</span>
+              <StatusAndIcon status={booking.reservationStatus} />
+            </div>
+            <div className="flex gap-1">
+              <span className="text-xs text-gray-500 font-medium">Payment:</span>
+              <StatusAndIcon status={booking.paymentStatus} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-violet-50">
       <Navbar />
@@ -145,9 +229,9 @@ const CustomerDashboard = () => {
         </div>
 
         {/* <div className="grid md:grid-cols-3 gap-8"> */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-8">
           <div className="md:col-span-2">
-            <div className="bg-white rounded-3xl shadow-lg p-6">
+            <div className="bg-white rounded-3xl shadow-lg p-4 md:p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-gray-800">
                   Upcoming Bookings
@@ -161,153 +245,16 @@ const CustomerDashboard = () => {
                 </Button>
               </div>
 
-              {pendingProperties?.length > 0 ? (
-                <div className="space-y-4 ">
-                  {/* <div className="space-y-6 md:h-[60vh] overflow-auto"> */}
-                  {pendingProperties?.map((property) => {
-                    const checkinDate = convertUTC(
-                      property?.checkIn,
-                      userTimeZone
-                    );
-                    const checkoutDate = convertUTC(
-                      property?.checkOut,
-                      userTimeZone
-                    );
-
-                    return (
-                      <div
-                        key={property?._id}
-                        // className="flex gap-6 p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition cursor-pointer"
-                        className="flex flex-col sm:flex-row gap-4 sm:gap-6 p-4 sm:p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition cursor-pointer"
-                      >
-                        {/* Image */}
-                        {/* <div className="flex-shrink-0 aspect-square w-48 rounded-xl overflow-hidden"> */}
-                        <div className="flex-shrink-0 aspect-square w-full sm:w-40 md:w-48 rounded-xl overflow-hidden">
-                          <img
-                            src={`${baseURL}/${property?.property?.images[0]}`}
-                            alt={property?.property?.title}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-
-                        {/* Right Content */}
-                        <div className="flex flex-col items-start gap-2">
-                          {/* Top Row: Title/Location + Amount */}
-                          <div className="">
-                            {/* Left Section: Title + Location */}
-                            <div className="">
-                              <h3 className="font-bold text-gray-800 mb-1 capitalize">
-                                {property?.property?.title}
-                              </h3>
-
-                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                <MapPin className="w-4 h-4 flex-shrink-0" />
-                                <span className="truncate">
-                                  {property?.property?.address?.city},{" "}
-                                  {property?.property?.address?.state}
-                                </span>
-                              </div>
-                              <p className="font-bold text-lg sm:text-2xl text-violet-600 whitespace-nowrap">
-                                ${property?.finalAmount}
-                              </p>
-                            </div>
-
-                            {/* Right Section: Price + Booking Type */}
-                            {/* <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 sm:gap-1 flex-shrink-0">
-                              <p className="font-bold text-lg sm:text-2xl text-violet-600 whitespace-nowrap">
-                                ${property?.finalAmount}
-                              </p>
-
-                              <span className="px-2 py-0.5 rounded-md bg-muted text-xs text-muted-foreground capitalize">
-                                {property?.bookingType}
-                              </span>
-                            </div> */}
-                          </div>
-
-                          {/* Bottom Section */}
-                          <div className="flex flex-col gap-4">
-                            {/* Check-in / Check-out */}
-                            <div className="flex flex-wrap gap-6">
-                              <div className="flex items-center gap-3">
-                                <div className="p-2 bg-emerald-100 rounded-lg">
-                                  <Calendar className="w-3 h-3 text-emerald-600" />
-                                </div>
-                                <div>
-                                  <div className="text-xs text-slate-500">
-                                    Check-in
-                                  </div>
-                                  <div className="font-medium text-sm">
-                                    {checkinDate.date}
-                                  </div>
-                                  <div className="text-xs text-slate-600 flex items-center gap-1">
-                                    <Clock className="w-3 h-3" />
-                                    {checkinDate.time}
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="flex items-center gap-3">
-                                <div className="p-2 bg-rose-100 rounded-lg">
-                                  <Calendar className="w-3 h-3 text-rose-600" />
-                                </div>
-                                <div>
-                                  <div className="text-xs text-slate-500">
-                                    Check-out
-                                  </div>
-                                  <div className="font-medium text-sm">
-                                    {checkoutDate.date}
-                                  </div>
-                                  <div className="text-xs text-slate-600 flex items-center gap-1">
-                                    <Clock className="w-3 h-3" />
-                                    {checkoutDate.time}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Reservation & Payment Status */}
-                            <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
-                              <div className="flex items-center gap-1">
-                                <span className="text-sm text-muted-foreground">
-                                  Reservation:
-                                </span>
-                                <StatusAndIcon
-                                  status={property.reservationStatus}
-                                />
-                              </div>
-
-                              <div className="flex items-center gap-1">
-                                <span className="text-sm text-muted-foreground">
-                                  Payment:
-                                </span>
-                                <StatusAndIcon
-                                  status={property.paymentStatus}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <Calendar className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500 mb-4">No upcoming bookings</p>
-                  <Button
-                    onClick={() => onNavigate("/property")}
-                    variant={"gradient"}
-                  >
-                    Browse Spaces
-                  </Button>
-                </div>
-              )}
+              <div className="space-y-4">
+          {pendingProperties.map((booking) => (
+            <BookingCard key={booking.id} booking={booking} />
+          ))}
+        </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-6">
-            <div className="bg-white rounded-3xl shadow-lg p-6">
+          <div className="flex flex-col gap-6 mt-6 lg:mt-0">
+            <div className="bg-white rounded-3xl shadow-lg p-4 md:p-6">
               <h3 className="text-xl font-bold mb-4">Your Stats</h3>
               <div className="space-y-4">
                 <StatItem
@@ -328,7 +275,7 @@ const CustomerDashboard = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-lg p-6">
+            <div className="bg-white rounded-3xl shadow-lg p-4 md:p-6">
               <h3 className="text-xl font-bold text-gray-800 mb-4">
                 Quick Actions
               </h3>
