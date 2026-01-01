@@ -107,10 +107,13 @@ const SlotBookingDetails = ({ search, filter }) => {
                     {property?.property?.address?.state},{" "}
                     {property?.property?.address?.city}
                   </p>
+                  <p className="flex md:hidden w-fit mt-1 text-sm font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full flex-shrink-0">
+                    {property?.reservations?.length} Bookings
+                  </p>
                 </div>
-                <span className="text-sm font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                <div className="hidden md:flex text-sm font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full flex-shrink-0">
                   {property?.reservations?.length} Bookings
-                </span>
+                </div>
               </AccordionTrigger>
 
               <AccordionContent>
