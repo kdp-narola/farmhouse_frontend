@@ -144,10 +144,11 @@ const CustomerDashboard = () => {
           />
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="flex flex-col md:col-span-2 gap-6">
+        {/* <div className="grid md:grid-cols-3 gap-8"> */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="md:col-span-2">
             <div className="bg-white rounded-3xl shadow-lg p-6">
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-gray-800">
                   Upcoming Bookings
                 </h2>
@@ -161,108 +162,8 @@ const CustomerDashboard = () => {
               </div>
 
               {pendingProperties?.length > 0 ? (
-                // <div className="space-y-4 md:max-h-[51vh] overflow-auto">
-                //   {pendingProperties?.map((property) => {
-                //     const checkinDate = convertUTC(
-                //       property?.checkIn,
-                //       userTimeZone
-                //     );
-                //     const checkoutDate = convertUTC(
-                //       property?.checkOut,
-                //       userTimeZone
-                //     );
-                //     return (
-                //       <div
-                //         key={property?._id}
-                //         className="flex gap-4 p-4 bg-muted/30 rounded-2xl hover-lift cursor-pointer"
-                //       >
-                //         <img
-                //           src={`${baseURL}/${property?.property?.images[0]}`}
-                //           alt={property?.property?.title}
-                //           className="w-24 h-24 rounded-xl object-cover"
-                //         />
-                //         <div className="flex-1">
-                //           <h3 className="font-bold mb-1 capitalize">
-                //             {property?.property?.title}
-                //           </h3>
-                //           <div className="flex flex-col gap-1 text-sm text-muted-foreground">
-                //             <p className="flex items-center gap-1 capitalize">
-                //               <MapPin className="w-3 h-3" />
-                //               {property?.property?.address?.city},{" "}
-                //               {property?.property?.address?.state}
-                //             </p>
-
-                //             <div className="grid grid-cols-2 gap-2 mt-2">
-                //               <div className="flex items-start gap-2">
-                //                 <div className="p-1.5 bg-emerald-100 rounded-lg">
-                //                   <Calendar className="w-4 h-4 text-emerald-600" />
-                //                 </div>
-                //                 <div>
-                //                   <div className="text-xs text-slate-500">
-                //                     Check-in
-                //                   </div>
-                //                   <div className="font-semibold text-slate-900 text-xs">
-                //                     {checkinDate.date}
-                //                   </div>
-                //                   <div className="text-xs text-slate-600 flex items-center gap-1">
-                //                     <Clock className="w-3 h-3" />
-                //                     {checkinDate.time}
-                //                   </div>
-                //                 </div>
-                //               </div>
-
-                //               <div className="flex items-start gap-2">
-                //                 <div className="p-1.5 bg-rose-100 rounded-lg">
-                //                   <Calendar className="w-4 h-4 text-rose-600" />
-                //                 </div>
-                //                 <div>
-                //                   <div className="text-xs text-slate-500">
-                //                     Check-out
-                //                   </div>
-                //                   <div className="font-semibold text-slate-900 text-xs">
-                //                     {checkoutDate.date}
-                //                   </div>
-                //                   <div className="text-xs text-slate-600 flex items-center gap-1">
-                //                     <Clock className="w-3 h-3" />
-                //                     {checkoutDate.time}
-                //                   </div>
-                //                 </div>
-                //               </div>
-                //             </div>
-
-                //             <div className="flex items-center gap-3 mt-2">
-                //               <div className="flex items-center gap-1">
-                //                 <span className="text-xs text-slate-500 font-medium">
-                //                   Reservation:
-                //                 </span>
-                //                 <span className="text-xs font-semibold capitalize">
-                //                   {property.reservationStatus}
-                //                 </span>
-                //               </div>
-                //               <div className="flex items-center gap-1">
-                //                 <span className="text-xs text-slate-500 font-medium">
-                //                   Payment:
-                //                 </span>
-                //                 <span className="text-xs font-semibold capitalize">
-                //                   {property.paymentStatus}
-                //                 </span>
-                //               </div>
-                //             </div>
-                //           </div>
-                //         </div>
-                //         <div className="text-right">
-                //           <p className="font-bold text-violet-500 text-lg">
-                //             ${property?.finalAmount}
-                //           </p>
-                //           <p className="text-xs text-muted-foreground lowercase">
-                //             {property?.bookingType}
-                //           </p>
-                //         </div>
-                //       </div>
-                //     );
-                //   })}
-                // </div>
-                <div className="space-y-6 md:h-[60vh] overflow-auto">
+                <div className="space-y-4 ">
+                  {/* <div className="space-y-6 md:h-[60vh] overflow-auto"> */}
                   {pendingProperties?.map((property) => {
                     const checkinDate = convertUTC(
                       property?.checkIn,
@@ -274,111 +175,14 @@ const CustomerDashboard = () => {
                     );
 
                     return (
-                      // <div
-                      //   key={property?._id}
-                      //   className="flex flex-col md:flex-row gap-6 p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition duration-300 ease-in-out cursor-pointer"
-                      // >
-                      //   {/* Image Section */}
-                      //   <div className="flex-shrink-0 aspect-square w-48 rounded-xl overflow-hidden">
-                      //     <img
-                      //       src={`${baseURL}/${property?.property?.images[0]}`}
-                      //       alt={property?.property?.title}
-                      //       className="w-full h-full object-cover"
-                      //     />
-                      //   </div>
-
-                      //   {/* Main Content Section */}
-                      //   <div className="flex-1 min-w-0">
-                      //     {/* Title and Location */}
-                      //     <div className="mb-4">
-                      //       <h3 className="font-semibold text-lg mb-2 truncate">
-                      //         {property?.property?.title}
-                      //       </h3>
-                      //       <p className="flex items-center gap-1 text-sm text-muted-foreground capitalize">
-                      //         <MapPin className="w-4 h-4 flex-shrink-0" />
-                      //         <span className="truncate">
-                      //           {property?.property?.address?.city},{" "}
-                      //           {property?.property?.address?.state}
-                      //         </span>
-                      //       </p>
-                      //     </div>
-
-                      //     {/* Check-in and Check-out Dates */}
-                      //     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                      //       <div className="flex items-center gap-3">
-                      //         <div className="p-3 bg-emerald-100 rounded-lg flex-shrink-0">
-                      //           <Calendar className="w-5 h-5 text-emerald-600" />
-                      //         </div>
-                      //         <div>
-                      //           <div className="text-xs text-slate-500">
-                      //             Check-in
-                      //           </div>
-                      //           <div className="font-medium text-sm text-slate-900">
-                      //             {checkinDate.date}
-                      //           </div>
-                      //           <div className="text-xs text-slate-600 flex items-center gap-1">
-                      //             <Clock className="w-3 h-3" />
-                      //             {checkinDate.time}
-                      //           </div>
-                      //         </div>
-                      //       </div>
-
-                      //       <div className="flex items-center gap-3">
-                      //         <div className="p-3 bg-rose-100 rounded-lg flex-shrink-0">
-                      //           <Calendar className="w-5 h-5 text-rose-600" />
-                      //         </div>
-                      //         <div>
-                      //           <div className="text-xs text-slate-500">
-                      //             Check-out
-                      //           </div>
-                      //           <div className="font-medium text-sm text-slate-900">
-                      //             {checkoutDate.date}
-                      //           </div>
-                      //           <div className="text-xs text-slate-600 flex items-center gap-1">
-                      //             <Clock className="w-3 h-3" />
-                      //             {checkoutDate.time}
-                      //           </div>
-                      //         </div>
-                      //       </div>
-                      //     </div>
-
-                      //     {/* Status Section */}
-                      //     <div className="flex flex-wrap gap-4">
-                      //       <div className="flex items-center gap-2">
-                      //         <span className="text-sm text-muted-foreground">
-                      //           Reservation:
-                      //         </span>
-                      //         <StatusAndIcon
-                      //           status={property.reservationStatus}
-                      //         />
-                      //       </div>
-                      //       <div className="flex items-center gap-2">
-                      //         <span className="text-sm text-muted-foreground">
-                      //           Payment:
-                      //         </span>
-                      //         <StatusAndIcon status={property.paymentStatus} />
-                      //       </div>
-                      //     </div>
-                      //   </div>
-
-                      //   {/* Price Section */}
-                      //   <div className="flex md:flex-col items-center md:items-end justify-between md:justify-start gap-4 pt-2 md:pt-0 md:pl-6">
-                      //     <div className="text-right">
-                      //       <p className="font-semibold text-violet-600 text-2xl">
-                      //         ${property?.finalAmount}
-                      //       </p>
-                      //       <p className="text-xs text-muted-foreground capitalize mt-2">
-                      //         {property?.bookingType}
-                      //       </p>
-                      //     </div>
-                      //   </div>
-                      // </div>
                       <div
                         key={property?._id}
-                        className="flex gap-6 p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition cursor-pointer"
+                        // className="flex gap-6 p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition cursor-pointer"
+                        className="flex flex-col sm:flex-row gap-4 sm:gap-6 p-4 sm:p-6 bg-gray-50 rounded-2xl hover:shadow-lg transition cursor-pointer"
                       >
                         {/* Image */}
-                        <div className="flex-shrink-0 aspect-square w-48 rounded-xl overflow-hidden">
+                        {/* <div className="flex-shrink-0 aspect-square w-48 rounded-xl overflow-hidden"> */}
+                        <div className="flex-shrink-0 aspect-square w-full sm:w-40 md:w-48 rounded-xl overflow-hidden">
                           <img
                             src={`${baseURL}/${property?.property?.images[0]}`}
                             alt={property?.property?.title}
@@ -387,32 +191,37 @@ const CustomerDashboard = () => {
                         </div>
 
                         {/* Right Content */}
-                        <div className="flex flex-col flex-1 gap-4">
+                        <div className="flex flex-col items-start gap-2">
                           {/* Top Row: Title/Location + Amount */}
-                          <div className="flex justify-between items-start gap-4">
-                            {/* Title & Location */}
+                          <div className="">
+                            {/* Left Section: Title + Location */}
                             <div className="">
-                              <h3 className="font-semibold text-lg truncate max-w-sm">
+                              <h3 className="font-bold text-gray-800 mb-1 capitalize">
                                 {property?.property?.title}
                               </h3>
-                              <p className="flex items-center gap-1 text-sm text-muted-foreground capitalize">
+
+                              <div className="flex items-center gap-1 text-sm text-muted-foreground">
                                 <MapPin className="w-4 h-4 flex-shrink-0" />
                                 <span className="truncate">
                                   {property?.property?.address?.city},{" "}
                                   {property?.property?.address?.state}
                                 </span>
+                              </div>
+                              <p className="font-bold text-lg sm:text-2xl text-violet-600 whitespace-nowrap">
+                                ${property?.finalAmount}
                               </p>
                             </div>
 
-                            {/* Amount */}
-                            <div className="text-right flex-shrink-0">
-                              <p className="font-semibold text-violet-600 text-2xl">
+                            {/* Right Section: Price + Booking Type */}
+                            {/* <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 sm:gap-1 flex-shrink-0">
+                              <p className="font-bold text-lg sm:text-2xl text-violet-600 whitespace-nowrap">
                                 ${property?.finalAmount}
                               </p>
-                              <p className="text-xs text-muted-foreground capitalize mt-1">
+
+                              <span className="px-2 py-0.5 rounded-md bg-muted text-xs text-muted-foreground capitalize">
                                 {property?.bookingType}
-                              </p>
-                            </div>
+                              </span>
+                            </div> */}
                           </div>
 
                           {/* Bottom Section */}
@@ -457,8 +266,8 @@ const CustomerDashboard = () => {
                             </div>
 
                             {/* Reservation & Payment Status */}
-                            <div className="flex flex-wrap gap-6">
-                              <div className="flex items-center gap-2">
+                            <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
+                              <div className="flex items-center gap-1">
                                 <span className="text-sm text-muted-foreground">
                                   Reservation:
                                 </span>
@@ -467,7 +276,7 @@ const CustomerDashboard = () => {
                                 />
                               </div>
 
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1">
                                 <span className="text-sm text-muted-foreground">
                                   Payment:
                                 </span>
@@ -498,7 +307,7 @@ const CustomerDashboard = () => {
           </div>
 
           <div className="flex flex-col gap-6">
-            <div className="bg-white rounded-3xl p-6 shadow-md">
+            <div className="bg-white rounded-3xl shadow-lg p-6">
               <h3 className="text-xl font-bold mb-4">Your Stats</h3>
               <div className="space-y-4">
                 <StatItem

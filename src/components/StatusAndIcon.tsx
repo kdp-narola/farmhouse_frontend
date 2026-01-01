@@ -17,17 +17,17 @@ const StatusAndIcon = ({ status }) => {
       case BOOKING_STATUS.PENDING:
       case RESERVATION_STATUS.PEDNING:
       case PAYMENT_STATUS.PEDNING:
-        return "bg-yellow-50 text-yellow-500";
+        return "bg-yellow-50 text-yellow-600";
 
       case BOOKING_STATUS.ACCEPTED:
       case RESERVATION_STATUS.COMPLETED:
       case PAYMENT_STATUS.SUCCESS:
-        return "bg-green-50 text-green-500";
+        return "bg-green-50 text-green-600";
 
       case BOOKING_STATUS.CONFIRMED:
       case RESERVATION_STATUS.CONFIRMED:
       case PAYMENT_STATUS.REFUNDED:
-        return "bg-blue-50 text-blue-500";
+        return "bg-blue-50 text-blue-600";
 
       case BOOKING_STATUS.REJECTED:
       case RESERVATION_STATUS.CANCELLED:
