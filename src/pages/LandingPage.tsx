@@ -9,63 +9,36 @@ import {
   TrendingUp,
   Search,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-property.jpg";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useList } from "@/contexts/ListingContext";
 
 const LandingPage = () => {
   const [searchLocation, setSearchLocation] = useState("");
   const [searchDate, setSearchDate] = useState("");
   const [bookingType, setBookingType] = useState<"hourly" | "daily">("hourly");
   const onNavigate = useNavigate();
+
+  const { property, getPropertyList } = useList();
+  console.log("property from landing page", property);
   const baseURL = import.meta.env.VITE_IMAGE_ENDPOINT;
 
-  const featuredProperties = [
-    {
-      _id: "69365c407cc8e64d8d321629",
-      title: "abcde",
-      pricePerDay: 150,
-      pricePerHours: 25,
-      images: ["propertyImage/90a5d6aa-849e-4bbf-b0be-74d58c973036_img1.png"],
-      address: {
-        state: "state",
-        city: "city",
+  useEffect(() => {
+    const payload = {
+      options: {
+        pagination: true,
+        page: 1,
+        limit: 3,
+        select:
+          "title address.city address.state pricePerDay pricePerHours images",
       },
-      avgRate: null,
-    },
-    {
-      _id: "6932a98f3aee918144342bcb",
-      title: "Modern 1BHK Sea-Facing Apartment in Mumbai  Description",
-      pricePerDay: 4200,
-      pricePerHours: 500,
-      images: [
-        "propertyImage/b5fef972-a9cc-42a4-96df-68178e7a17b9_pexels-photo-1571463.jpeg",
-        "propertyImage/9d0b0a7b-2486-4331-b59f-c55d78959823_pexels-photo-1454806.jpeg",
-      ],
-      address: {
-        state: "Mumbai",
-        city: "Mumbai",
-      },
-      avgRate: null,
-    },
-    {
-      _id: "6932a45d1dd05c3fd6ada45c",
-      title: "Luxury 2BHK Riverside Apartment in the Heart of Pune",
-      pricePerDay: 3500,
-      pricePerHours: 400,
-      images: [
-        "propertyImage/526a1e9a-4319-42a0-9a80-5d85d8259872_photo-1600585154340-be6161a56a0c.png",
-        "propertyImage/a404884b-0c68-42d0-a53e-ff8e3bda3235_pexels-photo-1571460.jpeg",
-      ],
-      address: {
-        state: "Maharashtra",
-        city: "Pune",
-      },
-      avgRate: null,
-    },
-  ];
+    };
+
+    getPropertyList(payload);
+  }, []);
 
   const handleSearch = () => {
     onNavigate("/property");
@@ -184,106 +157,112 @@ const LandingPage = () => {
       </section>
 
       <section className="p-4 md:p-8 bg-white">
-        <div className="">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold mb-2 text-gray-800">
-              Featured Spaces
-            </h2>
-            <p className="text-gray-600 text-lg">
-              Handpicked locations loved by creators
-            </p>
-          </div>
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold mb-1 text-gray-800">
+            Featured Spaces
+          </h2>
+          <p className="text-gray-600 text-lg">
+            Handpicked locations loved by creators
+          </p>
+          <Button
+            variant={"outline"}
+            size={"sm"}
+            className="mt-4"
+            onClick={() => onNavigate("/property")}
+          >
+            Explore more
+          </Button>
+        </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {featuredProperties?.map((property) => (
-              <div
-                key={property._id}
-                onClick={() => onNavigate(`/property-detail/${property._id}`)}
-                className="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300"
-              >
-                <div className="relative aspect-auto h-64 overflow-hidden">
-                  <img
-                    src={`${baseURL}/${property?.images[0]}`}
-                    alt={property.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full">
-                    <span className="font-bold text-teal-600">
-                      ${property?.pricePerHours}/hr
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-gray-800 mb-2 truncate capitalize">
-                    {property.title}
-                  </h3>
-                  <p className="flex items-center text-gray-600 mb-2 gap-1">
-                    <MapPin className="w-4 h-4" />
-                    <span>
-                      {property?.address?.city}, {property?.address?.state}
-                    </span>
-                  </p>
-                  <p className="flex items-center justify-between">
-                    <span className="text-gray-500">
-                      ${property?.pricePerDay}/day
-                    </span>
-                    <ArrowRight className="w-5 h-5 text-teal-500 group-hover:translate-x-2 transition-transform" />
-                  </p>
+        {/* <div className="flex justify-end mb-8">Explore more</div> */}
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {property?.map((property) => (
+            <div
+              key={property._id}
+              onClick={() => onNavigate(`/property-detail/${property._id}`)}
+              className="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300"
+            >
+              <div className="relative aspect-auto h-64 overflow-hidden">
+                <img
+                  src={`${baseURL}/${property?.images[0]}`}
+                  alt={property.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full">
+                  <span className="font-bold text-teal-600">
+                    ${property?.pricePerHours}/hr
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
+              <div className="p-6">
+                <h3 className="text-lg font-bold text-gray-800 mb-2 truncate capitalize">
+                  {property.title}
+                </h3>
+                <p className="flex items-center text-gray-600 mb-2 gap-1">
+                  <MapPin className="w-4 h-4" />
+                  <span>
+                    {property?.address?.city}, {property?.address?.state}
+                  </span>
+                </p>
+                <p className="flex items-center justify-between">
+                  <span className="text-gray-500">
+                    ${property?.pricePerDay}/day
+                  </span>
+                  <ArrowRight className="w-5 h-5 text-teal-500 group-hover:translate-x-2 transition-transform" />
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
       <section className="p-8 bg-gradient-to-br from-teal-50 to-violet-50">
-        <div className="">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold mb-2 text-gray-800">
-              How It Works
-            </h2>
-            <p className="text-gray-600 text-lg">Simple, fast, and secure</p>
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold mb-2 text-gray-800">
+            How It Works
+          </h2>
+          <p className="text-gray-600 text-lg">Simple, fast, and secure</p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-12">
+          <div className="text-center">
+            <div className="w-20 h-20 bg-gradient-to-br from-teal-400 to-teal-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+              <Camera className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold mb-2 text-gray-800">
+              1. Search & Discover
+            </h3>
+            <p className="text-gray-600">
+              Browse hundreds of unique spaces perfect for photoshoots, events,
+              or staycations.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-teal-400 to-teal-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-                <Camera className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-gray-800">
-                1. Search & Discover
-              </h3>
-              <p className="text-gray-600">
-                Browse hundreds of unique spaces perfect for photoshoots,
-                events, or staycations.
-              </p>
+          <div className="text-center">
+            <div className="w-20 h-20 bg-gradient-to-br from-violet-400 to-violet-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+              <Calendar className="w-8 h-8 text-white" />
             </div>
+            <h3 className="text-xl font-bold mb-2 text-gray-800">
+              2. Book Instantly
+            </h3>
+            <p className="text-gray-600">
+              Select your date, time, and booking type. Pay securely and get
+              instant confirmation.
+            </p>
+          </div>
 
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-violet-400 to-violet-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-                <Calendar className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-gray-800">
-                2. Book Instantly
-              </h3>
-              <p className="text-gray-600">
-                Select your date, time, and booking type. Pay securely and get
-                instant confirmation.
-              </p>
+          <div className="text-center">
+            <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+              <Shield className="w-8 h-8 text-white" />
             </div>
-
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-                <Shield className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-bold mb-2 text-gray-800">
-                3. Create Memories
-              </h3>
-              <p className="text-gray-600">
-                Enjoy your space with peace of mind. Protected bookings and 24/7
-                support.
-              </p>
-            </div>
+            <h3 className="text-xl font-bold mb-2 text-gray-800">
+              3. Create Memories
+            </h3>
+            <p className="text-gray-600">
+              Enjoy your space with peace of mind. Protected bookings and 24/7
+              support.
+            </p>
           </div>
         </div>
       </section>
