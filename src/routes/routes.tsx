@@ -7,7 +7,6 @@ import FarmhouseLoader from "@/components/Loader";
 
 const MainRoutes = () => {
   const { authUser, profileLoading } = useAuth();
-  console.log("authUser.role", authUser?.role);
 
   if (profileLoading) {
     return (

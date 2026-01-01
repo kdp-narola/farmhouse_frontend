@@ -17,6 +17,7 @@ import PropertyListing from "@/pages/Customer/PropertyListing";
 import UserList from "@/pages/Admin/UserDetails";
 import ManageBookings from "@/pages/ManageBookings";
 import ManagePendingBooking from "@/pages/ManagePendingBooking";
+import UpcomingBooking from "@/pages/Customer/UpcomingBooking";
 
 export const AUTH_ROUTES = [
   {
@@ -94,7 +95,13 @@ export const PROPERTY_ROUTES = [
     path: "/pending-bookings",
     element: <ManagePendingBooking />,
     isRouteAccessible: false,
-    accessBy: [USER_ROLE.ADMIN, USER_ROLE.OWNER, USER_ROLE.CUSTOMER],
+    accessBy: [USER_ROLE.ADMIN, USER_ROLE.OWNER],
+  },
+  {
+    path: "/upcoming-bookings",
+    element: <UpcomingBooking />,
+    isRouteAccessible: false,
+    accessBy: [USER_ROLE.CUSTOMER],
   },
   {
     path: "/admin-users",

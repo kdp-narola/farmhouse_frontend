@@ -5,14 +5,12 @@ import { pendingReservationAction } from "@/services/api-routes/booking";
 
 const PendingProperty = ({ property }) => {
   const handleReservationApprovalStatus = async (status) => {
-    console.log("status", status);
     try {
       const propertyId = property?._id;
       const payload = {
         status: status,
       };
-      const res = await pendingReservationAction(propertyId, payload);
-      console.log("res", res);
+      await pendingReservationAction(propertyId, payload);
     } catch (error) {
       console.error("Error updating reservation status", error);
     }

@@ -69,7 +69,6 @@ const PropertyDetail = () => {
     !!startDate &&
     ((bookingType === "daily" && !!endDate) ||
       (bookingType === "hourly" && !!duration && !!startTime));
-  console.log("startDate", startDate);
 
   const time = moment(startTime, "HH:mm:ss");
   const checkInDate =
@@ -162,7 +161,6 @@ const PropertyDetail = () => {
       checkIn: checkInDate,
       checkOut: checkOutDate,
     };
-    console.log("payload", payload);
     try {
       const res = await availableSlots(payload);
       setIsAvailable(res?.data?.data?.isAvailable);
@@ -219,17 +217,15 @@ const PropertyDetail = () => {
         handler: async function (response) {
           const res = await getVerifiedPaymentDetail(response);
           // const res = await verifyPayment(response);
-          console.log("res", res);
-          console.log("res ==> verified Payment", res?.data?.data);
+
           onNavigate("/booking-success");
         },
         modal: {
           ondismiss: async function () {
-            const res = getDeniedPaymentDetail({ orderId: orderId });
+            getDeniedPaymentDetail({ orderId: orderId });
             // const res = await deniedPayment({
             //   orderId: orderId,
             // });
-            console.log("res ==> Denied Payment", res.data.data);
           },
         },
         // handler: async function (response) {

@@ -86,7 +86,6 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => {
-                console.log("first");
                 setIsMenuOpen(isMenuOpen ? false : true);
               }}
               className="text-2xl"

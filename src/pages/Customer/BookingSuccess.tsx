@@ -11,7 +11,6 @@ const BookingSuccess = () => {
   const [showContent, setShowContent] = useState(false);
   const onNavigate = useNavigate();
   const { verifyPaymentDetail } = useBooking();
-  console.log("verifyPaymentDetail", verifyPaymentDetail);
 
   useEffect(() => {
     // Trigger confetti

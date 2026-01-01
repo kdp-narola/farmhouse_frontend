@@ -20,8 +20,6 @@ import {
 
 const SlotBookingDetails = ({ search, filter }) => {
   const [properties, setProperties] = useState([]);
-  console.log("properties?.length", properties?.length);
-  console.log("properties", properties);
   const handleSlotBookingDetails = async () => {
     const payload = {
       options: {
@@ -43,7 +41,6 @@ const SlotBookingDetails = ({ search, filter }) => {
     try {
       const res = await slotBookingList(payload);
       setProperties(res?.data?.data?.data);
-      console.log("res.data.data", res.data.data.data);
     } catch (error) {
       console.log("error", error);
     }

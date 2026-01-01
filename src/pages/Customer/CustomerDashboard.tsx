@@ -1,21 +1,10 @@
+import { BookingCard } from "@/components/BookingCard";
 import Navbar from "@/components/Navbar";
-import StatusAndIcon from "@/components/StatusAndIcon";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
-import { useBooking } from "@/contexts/BookingContext";
 import { useList } from "@/contexts/ListingContext";
-import {
-  Calendar,
-  MapPin,
-  CreditCard,
-  Heart,
-  MessageCircle,
-  Search,
-  User,
-  Clock,
-} from "lucide-react";
-import moment from "moment";
+import { CreditCard, Heart, MessageCircle, Search, User } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -52,17 +41,14 @@ const StatItem = ({ value, label, borderColor }) => {
 
 const CustomerDashboard = () => {
   const { authUser } = useAuth();
-  const { getUpComingBookingList, upComingBooking } = useBooking();
   const {
     getAdminDashboardDetail,
     adminDashboardDetail,
     getPendingApprovalsList,
     pendingProperties,
   } = useList();
-  console.log("pendingProperties", pendingProperties);
 
   const onNavigate = useNavigate();
-  const baseURL = import.meta.env.VITE_IMAGE_ENDPOINT;
 
   useEffect(() => {
     const payload = {
@@ -75,101 +61,7 @@ const CustomerDashboard = () => {
     };
     getPendingApprovalsList(payload);
     getAdminDashboardDetail();
-    getUpComingBookingList();
   }, []);
-
-  function convertUTC(utcString, timeZone) {
-    const m = moment.utc(utcString).tz(timeZone);
-    return {
-      date: m.format("DD/MM/YYYY"),
-      time: m.format("HH:mm"),
-    };
-  }
-  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  const BookingCard = ({ booking }) => {
-    const checkinDate = convertUTC(
-        booking?.checkIn,
-        userTimeZone
-      );
-      const checkoutDate = convertUTC(
-        booking?.checkOut,
-        userTimeZone
-      );
-  return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-      <div className="flex flex-col sm:flex-row">
-        {/* Property Image */}
-        <div className="sm:w-48 md:w-64 h-48 sm:h-auto flex-shrink-0">
-          <img 
-            src={`${baseURL}/${booking?.property?.images[0]}`}
-            alt={booking.property.title}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        
-        {/* Content */}
-        <div className="flex-1 p-4">
-          {/* Header: Title and Price */}
-          <div className="flex justify-between items-start mb-3">
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                {booking.property.title}
-              </h3>
-              <div className="flex items-center text-gray-600 text-sm">
-                <MapPin className="w-4 h-4 mr-1" />
-                {booking.property.address.city}, {booking.property.address.state}
-              </div>
-            </div>
-            <div className="text-right ml-4">
-              <div className="text-2xl font-bold text-violet-600">
-                ${booking.finalAmount}
-              </div>
-              <div className="text-xs text-gray-500">{booking.bookingType}</div>
-            </div>
-          </div>
-          
-          {/* Dates */}
-          <div className="grid grid-cols-2 w-full gap-4 sm:gap-12 rounded-lg mb-3">
-            <div className="flex items-start bg-gray-50 p-2 rounded-md">
-              <Calendar className="w-4 h-4 text-teal-600 mr-2 mt-0.5 flex-shrink-0" />
-              <div>
-                <div className="text-xs text-gray-500 font-medium">Check-in</div>
-                <div className="text-xs sm:text-sm font-semibold text-gray-900">{checkinDate.date}</div>
-                <div className="text-xs text-gray-600 flex items-center mt-0.5">
-                  {checkinDate.time}
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-start bg-gray-50 p-2 rounded-md">
-              <Calendar className="w-4 h-4 text-violet-600 mr-2 mt-0.5 flex-shrink-0" />
-              <div>
-                <div className="text-xs text-gray-500 font-medium">Check-out</div>
-                <div className="text-xs sm:text-sm font-semibold text-gray-900">{checkoutDate.date}</div>
-                <div className="text-xs text-gray-600 flex items-center mt-0.5">
-                  {checkoutDate.time}
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Status Badges */}
-          <div className="flex flex-col sm:flex-row gap-2 md:items-center">
-            <div className="flex gap-1">
-              <span className="text-xs text-gray-500 font-medium">Reservation:</span>
-              <StatusAndIcon status={booking.reservationStatus} />
-            </div>
-            <div className="flex gap-1">
-              <span className="text-xs text-gray-500 font-medium">Payment:</span>
-              <StatusAndIcon status={booking.paymentStatus} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-violet-50">
@@ -238,7 +130,7 @@ const CustomerDashboard = () => {
                 </h2>
                 <Button
                   variant={"link"}
-                  onClick={() => onNavigate("/pending-bookings")}
+                  onClick={() => onNavigate("/upcoming-bookings")}
                   className="text-violet-600 hover:text-violet-700"
                 >
                   View All
@@ -246,10 +138,10 @@ const CustomerDashboard = () => {
               </div>
 
               <div className="space-y-4">
-          {pendingProperties.map((booking) => (
-            <BookingCard key={booking.id} booking={booking} />
-          ))}
-        </div>
+                {pendingProperties.map((booking) => (
+                  <BookingCard key={booking._id} booking={booking} />
+                ))}
+              </div>
             </div>
           </div>
 

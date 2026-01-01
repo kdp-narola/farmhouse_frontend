@@ -1,14 +1,14 @@
+import { BookingCard } from "@/components/BookingCard";
 import Navbar from "@/components/Navbar";
 import Pagination from "@/components/Pagination";
-import PendingProperty from "@/components/PendingProperty";
 import Search from "@/components/Search";
 import { useList } from "@/contexts/ListingContext";
 import { useEffect, useState } from "react";
 
-const ManagePendingBooking = () => {
+const UpcomingBooking = () => {
   const {
-    pendingProperties,
     getPendingApprovalsList,
+    pendingProperties,
     pendingPropertiesPagination,
   } = useList();
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,7 +25,7 @@ const ManagePendingBooking = () => {
   };
 
   console.log(
-    "pendingPropertiesPagination?.totalPages from Manage booking",
+    "pendingPropertiesPagination?.totalPages from upcoming booking",
     pendingPropertiesPagination
   );
 
@@ -48,8 +48,8 @@ const ManagePendingBooking = () => {
     getPendingApprovalsList(payload);
   }, [searchTerm, page, limit]);
 
-  const handleMapData = pendingProperties.map((property) => (
-    <PendingProperty key={property?._id} property={property} />
+  const handleMapData = pendingProperties.map((booking) => (
+    <BookingCard key={booking?._id} booking={booking} />
   ));
   return (
     <div className="min-h-screen bg-gray-50">
@@ -102,4 +102,4 @@ const ManagePendingBooking = () => {
   );
 };
 
-export default ManagePendingBooking;
+export default UpcomingBooking;

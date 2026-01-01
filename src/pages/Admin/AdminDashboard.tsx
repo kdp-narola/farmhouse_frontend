@@ -60,7 +60,6 @@ export default function AdminDashboard() {
     getUserList,
   } = useList();
 
-  console.log("userList from admin dashboard", userList);
   const recentUsers = userList?.data ?? [];
 
   // const recentUsers = [
