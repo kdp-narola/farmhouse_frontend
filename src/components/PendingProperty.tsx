@@ -5,7 +5,7 @@ import { pendingReservationAction } from "@/services/api-routes/booking";
 import { useList } from "@/contexts/ListingContext";
 
 const PendingProperty = ({ property }) => {
-  const { getPendingApprovalsList, adminDashboardDetail } = useList();
+  const { getPendingApprovalsList, getAdminDashboardDetail } = useList();
   const handleReservationApprovalStatus = async (status) => {
     try {
       const propertyId = property?._id;
@@ -14,7 +14,7 @@ const PendingProperty = ({ property }) => {
       };
       await pendingReservationAction(propertyId, payload);
       await getPendingApprovalsList();
-      await adminDashboardDetail();
+      await getAdminDashboardDetail();
     } catch (error) {
       console.error("Error updating reservation status", error);
     }
