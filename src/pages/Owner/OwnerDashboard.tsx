@@ -1,4 +1,4 @@
-import { Home, Plus, Calendar, DollarSign, BarChart3 } from "lucide-react";
+import { Home, Plus, Calendar, DollarSign } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Navbar from "@/components/Navbar";
@@ -6,7 +6,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useList } from "@/contexts/ListingContext";
 import { useEffect } from "react";
-import PendingProperty from "@/components/PendingProperty";
+import ReserveProperty from "@/components/ReserveProperty";
+import PropertyNotFound from "@/components/PropertyNotFound";
+import PendingProperty from "@/components/PropertyApproval";
 
 const StatCard = ({ title, value, icon: Icon, bgFrom, bgTo, onclick }) => {
   return (
@@ -35,8 +37,10 @@ export default function OwnerDashboard() {
   const {
     getAdminDashboardDetail,
     adminDashboardDetail,
-    pendingProperties,
-    getPendingApprovalsList,
+    reservationList,
+    getReservationList,
+    pendingApprovalProperty,
+    getpendingApprovalProperties,
   } = useList();
 
   useEffect(() => {
@@ -45,22 +49,23 @@ export default function OwnerDashboard() {
         page: 1,
         limit: 3,
         sort: { createdAt: -1 },
-        select: "title address.city address.state pricePerDay",
+        select: "title address.city address.state pricePerDay images createdAt",
       },
     };
     getAdminDashboardDetail();
-    getPendingApprovalsList(payload);
+    getReservationList(payload);
+    getpendingApprovalProperties(payload);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
+    <div className="min-h-screen custom-gradient-blue-teal">
       <Navbar />
       <div className="mx-auto p-4 md:p-8">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold">
               <span className="text-gray-800">Hello, </span>
-              <span className="bg-gradient-to-r from-violet-600 to-teal-600 bg-clip-text text-transparent capitalize">
+              <span className="custom-gradient-teal-violet-2 bg-clip-text text-transparent capitalize">
                 {authUser?.fullName?.split(" ")[0] || "Owner"}!
               </span>
             </h1>
@@ -80,7 +85,6 @@ export default function OwnerDashboard() {
           <StatCard
             title="Active Properties"
             value={adminDashboardDetail?.totalProperties}
-            // value={properties.length}
             icon={Home}
             bgFrom="from-teal-500"
             bgTo="to-teal-400"
@@ -106,25 +110,44 @@ export default function OwnerDashboard() {
             bgTo="to-violet-400"
             onclick={() => {}}
           />
-          {/* <StatCard
-            title="Avg Rating"
-            value="4.8"
-            icon={BarChart3}
-            bgFrom="from-yellow-500"
-            bgTo="to-yellow-400"
-          /> */}
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
-            <div className="bg-white rounded-3xl shadow-lg p-6">
+            {/* Pending properties */}
+            <div className="bg-white rounded-3xl shadow-lg p-6 mb-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-800">
+                  Pending Properties
+                </h2>
+                <div className="flex gap-2">
+                  <Button
+                    variant={"link"}
+                    onClick={() => onNavigate("/pending-property")}
+                    className="text-violet-600 hover:text-violet-700"
+                  >
+                    View All
+                  </Button>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {pendingApprovalProperty?.length > 0 &&
+                  pendingApprovalProperty?.map((property) => (
+                    <PendingProperty key={property?._id} property={property} />
+                  ))}
+                {pendingApprovalProperty?.length === 0 && <PropertyNotFound />}
+              </div>
+            </div>
+            {/* Recent Booking card */}
+            <div className="bg-white rounded-3xl shadow-lg p-6 mb-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-gray-800">
                   Recent Bookings
                 </h2>
                 <Button
                   variant={"link"}
-                  onClick={() => onNavigate("/pending-bookings")}
+                  onClick={() => onNavigate("/booking-manage")}
                   className="text-violet-600 hover:text-violet-700"
                 >
                   View All
@@ -132,17 +155,11 @@ export default function OwnerDashboard() {
               </div>
 
               <div className="space-y-4">
-                {pendingProperties?.length > 0 &&
-                  pendingProperties?.map((property) => (
-                    <PendingProperty key={property?._id} property={property} />
+                {reservationList?.length > 0 &&
+                  reservationList?.map((property) => (
+                    <ReserveProperty key={property?._id} property={property} />
                   ))}
-                {pendingProperties?.length === 0 && (
-                  <div className="flex flex-col items-center justify-center">
-                    <h1 className="text-xl font-semibold text-gray-500 mb-2">
-                      Property Not Found
-                    </h1>
-                  </div>
-                )}
+                {reservationList?.length === 0 && <PropertyNotFound />}
               </div>
             </div>
           </div>
@@ -158,7 +175,6 @@ export default function OwnerDashboard() {
                   <p className="text-xl font-bold text-teal-600">
                     {adminDashboardDetail?.thisMonthRevenue}
                   </p>
-                  {/* <div className="text-xl font-bold text-teal-600">$7,700</div> */}
                 </div>
                 <div className="border-t border-gray-200 pt-4">
                   <p className="text-sm text-gray-600 mb-1">Last Month</p>
@@ -173,7 +189,7 @@ export default function OwnerDashboard() {
                   </p>
                 </div>
               </div>
-              <Button className="w-full mt-6 bg-gradient-to-r from-violet-500 to-teal-500">
+              <Button variant={"gradient"} className="w-full mt-6">
                 Request Payout
               </Button>
             </div>

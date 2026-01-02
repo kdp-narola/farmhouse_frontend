@@ -28,10 +28,10 @@ const Navbar = () => {
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => onNavigate("/")}
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-violet-500 rounded-2xl flex items-center justify-center">
+            <div className="w-10 h-10 custom-gradient-teal-violet-1 rounded-2xl flex items-center justify-center">
               <Home className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-violet-600 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold custom-gradient-teal-violet-2 bg-clip-text text-transparent">
               SpaceShare
             </span>
           </div>

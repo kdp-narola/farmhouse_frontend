@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Pagination from "@/components/Pagination";
+import PropertyNotFound from "@/components/PropertyNotFound";
 import Search from "@/components/Search";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -244,7 +245,7 @@ const PropertyListing = () => {
     </Card>
   ));
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-violet-50">
+    <div className="min-h-screen custom-gradient-teal-violet-3">
       <div className="relative top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm space-y-2">
         <Navbar />
         <div className="mx-auto px-8 py-4">
@@ -428,13 +429,7 @@ const PropertyListing = () => {
           </div>
         )}
       </div>
-      {property?.length === 0 && !propertyLoading && (
-        <div className="flex flex-col items-center justify-center">
-          <h1 className="text-xl font-semibold text-gray-500 mb-2">
-            Oops! Property Not Found
-          </h1>
-        </div>
-      )}
+      {property?.length === 0 && !propertyLoading && <PropertyNotFound />}
       {/* </div> */}
     </div>
   );

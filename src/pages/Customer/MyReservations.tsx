@@ -1,16 +1,14 @@
 import { BookingCard } from "@/components/BookingCard";
 import Navbar from "@/components/Navbar";
 import Pagination from "@/components/Pagination";
+import PropertyNotFound from "@/components/PropertyNotFound";
 import Search from "@/components/Search";
 import { useList } from "@/contexts/ListingContext";
 import { useEffect, useState } from "react";
 
-const UpcomingBooking = () => {
-  const {
-    getPendingApprovalsList,
-    pendingProperties,
-    pendingPropertiesPagination,
-  } = useList();
+const MyReservations = () => {
+  const { getReservationList, reservationList, reservationListPagination } =
+    useList();
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -25,8 +23,8 @@ const UpcomingBooking = () => {
   };
 
   console.log(
-    "pendingPropertiesPagination?.totalPages from upcoming booking",
-    pendingPropertiesPagination
+    "reservationListPagination?.totalPages from upcoming booking",
+    reservationListPagination
   );
 
   useEffect(() => {
@@ -45,10 +43,10 @@ const UpcomingBooking = () => {
       },
       population: [],
     };
-    getPendingApprovalsList(payload);
+    getReservationList(payload);
   }, [searchTerm, page, limit]);
 
-  const handleMapData = pendingProperties.map((booking) => (
+  const handleMapData = reservationList.map((booking) => (
     <BookingCard key={booking?._id} booking={booking} />
   ));
   return (
@@ -56,9 +54,7 @@ const UpcomingBooking = () => {
       <Navbar />
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">
-            Pending Property Management
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-800">My Reservations</h1>
           <p className="text-sm text-gray-500">
             Manage the property reservation
           </p>
@@ -75,31 +71,25 @@ const UpcomingBooking = () => {
           </div>
         </div>
 
-        {pendingProperties?.length > 0 && (
+        {reservationList?.length > 0 && (
           <Pagination
             className="space-y-4"
-            data={pendingProperties}
+            data={reservationList}
             handleFunction={handleMapData}
             handleLimitChange={handleLimitChange}
             handlePageChange={handlePageChange}
             page={page}
             limit={limit}
-            totalPage={pendingPropertiesPagination?.totalPages}
-            currentPage={pendingPropertiesPagination?.page}
+            totalPage={reservationListPagination?.totalPages}
+            currentPage={reservationListPagination?.page}
             displayLimitBtn={true}
           />
         )}
-        {pendingProperties?.length === 0 && (
-          <div className="flex flex-col items-center justify-center">
-            <h1 className="text-xl font-semibold text-gray-500 mb-2">
-              Oops! Property Not Found
-            </h1>
-          </div>
-        )}
+        {reservationList?.length === 0 && <PropertyNotFound />}
         {/* </div> */}
       </div>
     </div>
   );
 };
 
-export default UpcomingBooking;
+export default MyReservations;

@@ -66,32 +66,6 @@ const Category = () => {
   return (
     <div className="">
       <div className="mx-auto p-4 md:p-8">
-        {/* <div className='flex justify-between mb-4'>
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800">Categories Management</h2>
-            <p className="text-gray-600 text-sm">Manage farmhouse categories and classifications</p>
-          </div>
-          <Button onClick={openModal} variant="default" className="bg-white hover:bg-white text-teal-600 hover:text-teal-700">
-            <Plus className="w-5 h-5" />
-            Add New
-          </Button>
-        </div> */}
-
-        {/* Stats Card */}
-        {/* <div className="bg-gradient-to-r from-teal-500 to-violet-500 rounded-2xl shadow-lg p-6 mb-8 text-white">
-            <div className="flex items-center justify-between">
-            <div>
-                <Tag className="w-8 h-8" />
-                <div className="text-5xl font-bold mb-1">{category.length}</div>
-                <div className="text-lg opacity-90">Total Categories</div>
-            </div>
-            <Button onClick={openModal} variant="ghost" className="bg-white hover:bg-white text-teal-600 hover:text-teal-700 rounded-xl flex items-center gap-2" >
-                <Plus className="w-5 h-5" />
-                Add New
-            </Button>
-            </div>
-        </div> */}
-
         <div className="bg-white rounded-2xl shadow-md p-6">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-bold text-gray-800">
@@ -111,7 +85,7 @@ const Category = () => {
             {category?.map((category) => (
               <div
                 key={category._id}
-                className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200 hover:shadow-lg transition-all flex items-center justify-between"
+                className="custom-gradient-gray rounded-xl p-4 border border-gray-200 hover:shadow-lg transition-all flex items-center justify-between"
               >
                 {/* <div className="flex items-center gap-3"> */}
                 {/* <div className="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center">

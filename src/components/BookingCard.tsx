@@ -14,6 +14,7 @@ const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 export const BookingCard = ({ booking }) => {
   const baseURL = import.meta.env.VITE_IMAGE_ENDPOINT;
+  console.log("baseURL", baseURL);
   const checkinDate = convertUTC(booking?.checkIn, userTimeZone);
   const checkoutDate = convertUTC(booking?.checkOut, userTimeZone);
   return (
@@ -21,11 +22,13 @@ export const BookingCard = ({ booking }) => {
       <div className="flex flex-col sm:flex-row">
         {/* Property Image */}
         <div className="sm:w-48 md:w-64 h-48 sm:h-auto flex-shrink-0">
-          <img
-            src={`${baseURL}/${booking?.property?.images[0]}`}
-            alt={booking.property.title}
-            className="w-full h-full object-cover"
-          />
+          {booking?.property?.images?.length > 0 && (
+            <img
+              src={`${baseURL}/${booking?.property?.images[0]}`}
+              alt={booking?.property?.title}
+              className="w-full h-full object-cover"
+            />
+          )}
         </div>
 
         {/* Content */}
@@ -34,19 +37,21 @@ export const BookingCard = ({ booking }) => {
           <div className="flex justify-between items-start mb-3">
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                {booking.property.title}
+                {booking?.property?.title}
               </h3>
               <div className="flex items-center text-gray-600 text-sm">
                 <MapPin className="w-4 h-4 mr-1" />
-                {booking.property.address.city},{" "}
-                {booking.property.address.state}
+                {booking?.property?.address.city},{" "}
+                {booking?.property?.address?.state}
               </div>
             </div>
             <div className="text-right ml-4">
               <div className="text-2xl font-bold text-violet-600">
-                ${booking.finalAmount}
+                ${booking?.finalAmount}
               </div>
-              <div className="text-xs text-gray-500">{booking.bookingType}</div>
+              <div className="text-xs text-gray-500">
+                {booking?.bookingType}
+              </div>
             </div>
           </div>
 
@@ -59,10 +64,10 @@ export const BookingCard = ({ booking }) => {
                   Check-in
                 </div>
                 <div className="text-xs sm:text-sm font-semibold text-gray-900">
-                  {checkinDate.date}
+                  {checkinDate?.date}
                 </div>
                 <div className="text-xs text-gray-600 flex items-center mt-0.5">
-                  {checkinDate.time}
+                  {checkinDate?.time}
                 </div>
               </div>
             </div>
@@ -74,10 +79,10 @@ export const BookingCard = ({ booking }) => {
                   Check-out
                 </div>
                 <div className="text-xs sm:text-sm font-semibold text-gray-900">
-                  {checkoutDate.date}
+                  {checkoutDate?.date}
                 </div>
                 <div className="text-xs text-gray-600 flex items-center mt-0.5">
-                  {checkoutDate.time}
+                  {checkoutDate?.time}
                 </div>
               </div>
             </div>
@@ -89,13 +94,13 @@ export const BookingCard = ({ booking }) => {
               <span className="text-xs text-gray-500 font-medium">
                 Reservation:
               </span>
-              <StatusAndIcon status={booking.reservationStatus} />
+              <StatusAndIcon status={booking?.reservationStatus} />
             </div>
             <div className="flex gap-1">
               <span className="text-xs text-gray-500 font-medium">
                 Payment:
               </span>
-              <StatusAndIcon status={booking.paymentStatus} />
+              <StatusAndIcon status={booking?.paymentStatus} />
             </div>
           </div>
         </div>

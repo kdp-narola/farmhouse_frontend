@@ -35,7 +35,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center px-6 py-12 gap-5">
+    <div className="min-h-screen custom-gradient-gray flex flex-col items-center justify-center px-6 py-12 gap-5">
       <div className="w-full max-w-md">
         {/* Card */}
         <div className="bg-white rounded-2xl shadow-xl p-8">

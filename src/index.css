@@ -270,3 +270,67 @@ input[type=number] {
 *::-webkit-scrollbar-thumb {
   @apply !bg-[#888] !rounded-[10px];
 }
+
+/* New updates */
+.custom-gradient-teal-violet-1 {
+  @apply bg-gradient-to-br from-teal-500 to-violet-500;
+}
+
+.custom-gradient-teal-violet-2 {
+  @apply bg-gradient-to-r from-teal-600 to-violet-600;
+}
+
+.custom-gradient-teal-violet-3 {
+  @apply bg-gradient-to-br from-teal-50 via-white to-violet-50;
+}
+
+.custom-gradient-teal-violet-4 {
+  @apply bg-gradient-to-br from-teal-50 to-violet-50;
+}
+
+.custom-gradient-blue-teal {
+  @apply bg-gradient-to-br from-blue-50 via-white to-teal-50;
+}
+
+/* update color name */
+
+.custom-gradient-pink {
+  @apply bg-gradient-to-r from-pink-500 to-pink-400;
+}
+
+.custom-gradient-yellow {
+  @apply bg-gradient-to-r from-yellow-500 to-yellow-400;
+}
+
+
+.custom-gradient-teal-1 {
+  @apply bg-gradient-to-r from-teal-500 to-teal-400;
+}
+
+.custom-gradient-teal-2 {
+  @apply bg-gradient-to-br from-teal-400 to-teal-500;
+}
+
+.custom-gradient-violet-1 {
+  @apply bg-gradient-to-r from-violet-500 to-violet-400;
+}
+
+.custom-gradient-violet-2 {
+  @apply bg-gradient-to-br from-violet-400 to-violet-500;
+}
+
+.custom-gradient-yellow {
+  @apply bg-gradient-to-br from-yellow-400 to-yellow-500;
+}
+
+.custom-gradient-blue-teal-2 {
+  @apply bg-gradient-to-r from-blue-600 to-teal-600;
+}
+
+.custom-gradient-gray {
+  @apply bg-gradient-to-br from-gray-50 to-gray-100;
+}
+
+.custom-gradient-green {
+  @apply bg-gradient-to-br from-green-400 to-green-500;
+}

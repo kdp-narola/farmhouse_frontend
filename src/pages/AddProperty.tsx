@@ -219,7 +219,7 @@ const AddProperty = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
+    <div className="min-h-screen custom-gradient-blue-teal">
       <Navbar />
       {view === "list" && (
         <div className="">

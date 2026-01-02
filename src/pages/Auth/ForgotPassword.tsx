@@ -30,7 +30,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col items-center justify-center px-6 py-12 gap-5">
+    <div className="min-h-screen custom-gradient-gray flex flex-col items-center justify-center px-6 py-12 gap-5">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 md:p-10">
         <div className="text-center mb-8">
           <p className="flex justify-center mb-6">
@@ -80,7 +80,7 @@ const ForgotPassword = () => {
           <div className="space-y-6">
             <div className="text-center">
               <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 custom-gradient-green rounded-full flex items-center justify-center">
                   <CheckCircle className="w-8 h-8 text-white" />
                 </div>
               </div>
@@ -97,12 +97,13 @@ const ForgotPassword = () => {
             </div>
 
             <div className="space-y-3">
-              <button
+              <Button
+                variant={"gradient"}
                 onClick={() => setIsSubmitted(false)}
-                className="w-full py-3 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300"
+                className="w-full"
               >
                 Try Again
-              </button>
+              </Button>
             </div>
           </div>
         )}

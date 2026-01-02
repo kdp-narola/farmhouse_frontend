@@ -14,7 +14,7 @@ const ManageBookings = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
+    <div className="min-h-screen custom-gradient-blue-teal">
       <Navbar />
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col items-start mb-6">

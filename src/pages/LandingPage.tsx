@@ -45,7 +45,7 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-violet-50">
+    <div className="min-h-screen custom-gradient-teal-violet-3">
       <Navbar />
 
       <section className="relative p-4 md:p-8 overflow-hidden">
@@ -54,7 +54,7 @@ const LandingPage = () => {
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-2xl md:text-4xl font-bold">
-                <span className="bg-gradient-to-r from-teal-600 to-violet-600 bg-clip-text text-transparent">
+                <span className="custom-gradient-teal-violet-2 bg-clip-text text-transparent">
                   Find Your Perfect
                 </span>
                 <br />
@@ -72,7 +72,7 @@ const LandingPage = () => {
                   onClick={() => setBookingType("hourly")}
                   className={`w-full py-3 rounded-xl font-semibold transition-all ${
                     bookingType === "hourly"
-                      ? "bg-gradient-to-r from-teal-500 to-teal-400 text-white shadow-lg"
+                      ? "custom-gradient-teal-1 text-white shadow-lg"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   }`}
                 >
@@ -83,7 +83,7 @@ const LandingPage = () => {
                   onClick={() => setBookingType("daily")}
                   className={`w-full py-3 rounded-xl font-semibold transition-all ${
                     bookingType === "daily"
-                      ? "bg-gradient-to-r from-violet-500 to-violet-400 text-white shadow-lg"
+                      ? "custom-gradient-violet-1 text-white shadow-lg"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   }`}
                 >
@@ -115,7 +115,7 @@ const LandingPage = () => {
                 <Button
                   variant={"gradient"}
                   onClick={handleSearch}
-                  className="py-4 bg-gradient-to-r from-teal-500 to-violet-500"
+                  className="py-4 custom-gradient-teal-violet-2"
                 >
                   Search <ArrowRight className="w-5 h-5" />
                 </Button>
@@ -217,7 +217,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="p-8 bg-gradient-to-br from-teal-50 to-violet-50">
+      <section className="p-8 custom-gradient-teal-violet-4">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold mb-2 text-gray-800">
             How It Works
@@ -227,7 +227,7 @@ const LandingPage = () => {
 
         <div className="grid md:grid-cols-3 gap-12">
           <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-teal-400 to-teal-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+            <div className="w-20 h-20 custom-gradient-teal-2 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
               <Camera className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-gray-800">
@@ -240,7 +240,7 @@ const LandingPage = () => {
           </div>
 
           <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-violet-400 to-violet-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+            <div className="w-20 h-20 custom-gradient-violet-2 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
               <Calendar className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-gray-800">
@@ -253,7 +253,7 @@ const LandingPage = () => {
           </div>
 
           <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+            <div className="w-20 h-20 custom-gradient-yellow rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
               <Shield className="w-8 h-8 text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-gray-800">
@@ -267,7 +267,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="p-8 bg-gradient-to-r from-teal-600 to-violet-600 text-white">
+      <section className="p-8 custom-gradient-teal-violet-2 text-white">
         <div className="max-w-4xl mx-auto text-center">
           <TrendingUp className="w-12 h-12 mx-auto" />
           <h2 className="text-3xl font-bold mb-2">List Your Space</h2>

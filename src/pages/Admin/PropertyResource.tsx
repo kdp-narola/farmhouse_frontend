@@ -9,7 +9,7 @@ const PropertyResource = () => {
   const [currentPage, setCurrentPage] = useState("amenities");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
+    <div className="min-h-screen custom-gradient-blue-teal">
       <Navbar />
       <div className="mx-auto px-8 mt-6">
         <div className="flex gap-4 border-b border-gray-200">

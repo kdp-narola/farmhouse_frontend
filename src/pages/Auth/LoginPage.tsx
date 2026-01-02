@@ -45,14 +45,14 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-violet-50 flex flex-col items-center justify-center px-6 py-12 gap-5">
+    <div className="min-h-screen custom-gradient-teal-violet-3 flex flex-col items-center justify-center px-6 py-12 gap-5">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-10">
           <div className="flex items-center justify-center gap-2 mb-8">
-            <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-violet-500 rounded-2xl flex items-center justify-center">
+            <div className="w-12 h-12 custom-gradient-teal-violet-1 rounded-2xl flex items-center justify-center">
               <Home className="w-7 h-7 text-white" />
             </div>
-            <span className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-violet-600 bg-clip-text text-transparent">
+            <span className="text-3xl font-bold custom-gradient-teal-violet-2 bg-clip-text text-transparent">
               SpaceShare
             </span>
           </div>

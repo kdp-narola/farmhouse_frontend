@@ -1,19 +1,13 @@
-import {
-  Users,
-  Home,
-  DollarSign,
-  TrendingUp,
-  Utensils,
-  Hourglass,
-} from "lucide-react";
+import { Users, Home, DollarSign, Utensils } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import { useEffect } from "react";
 import { useList } from "@/contexts/ListingContext";
-import PendingProperty from "@/components/PendingProperty";
-import { USER_ROLE } from "@/constant/constant";
-import moment from "moment";
+import ReserveProperty from "@/components/ReserveProperty";
+import PropertyNotFound from "@/components/PropertyNotFound";
+import UserCard from "@/components/UserCard";
+import PendingProperty from "@/components/PropertyApproval";
 
 const AdminStatsCard = ({ icon: Icon, bgFrom, bgTo, label, value }) => {
   return (
@@ -54,30 +48,15 @@ export default function AdminDashboard() {
   const {
     getAdminDashboardDetail,
     adminDashboardDetail,
-    pendingProperties,
-    getPendingApprovalsList,
+    reservationList,
+    getReservationList,
     userList,
     getUserList,
+    pendingApprovalProperty,
+    getpendingApprovalProperties,
   } = useList();
 
   const recentUsers = userList?.data ?? [];
-
-  // const recentUsers = [
-  //   {
-  //     id: "1",
-  //     name: "John Doe",
-  //     email: "john@example.com",
-  //     role: "customer",
-  //     joinedDate: "2025-11-05",
-  //   },
-  //   {
-  //     id: "2",
-  //     name: "Sarah Wilson",
-  //     email: "sarah@example.com",
-  //     role: "owner",
-  //     joinedDate: "2025-11-06",
-  //   },
-  // ];
 
   useEffect(() => {
     const payload = {
@@ -85,11 +64,12 @@ export default function AdminDashboard() {
         page: 1,
         limit: 3,
         sort: { createdAt: -1 },
-        select: "title address.city address.state pricePerDay",
+        select: "title address.city address.state pricePerDay images createdAt",
       },
     };
     getAdminDashboardDetail();
-    getPendingApprovalsList(payload);
+    getReservationList(payload);
+    getpendingApprovalProperties(payload);
     getUserList({
       options: {
         page: 1,
@@ -106,12 +86,12 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50">
+    <div className="min-h-screen custom-gradient-blue-teal">
       <Navbar />
       <div className="mx-auto p-4 md:p-8">
         <div className="mb-8">
           <h1 className="text-2xl font-bold">
-            <span className="bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent">
+            <span className="custom-gradient-blue-teal-2 bg-clip-text text-transparent">
               Admin Dashboard
             </span>
           </h1>
@@ -181,15 +161,16 @@ export default function AdminDashboard() {
 
         <div className="grid md:grid-cols-3 gap-6">
           <div className="md:col-span-2">
+            {/* Pending properties */}
             <div className="bg-white rounded-3xl shadow-lg p-6 mb-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-gray-800">
-                  Pending Approvals
+                  Pending Properties
                 </h2>
                 <div className="flex gap-2">
                   <Button
                     variant={"link"}
-                    onClick={() => onNavigate("/pending-bookings")}
+                    onClick={() => onNavigate("/pending-property")}
                     className="text-violet-600 hover:text-violet-700"
                   >
                     View All
@@ -198,24 +179,40 @@ export default function AdminDashboard() {
               </div>
 
               <div className="space-y-4">
-                {pendingProperties?.length > 0 &&
-                  pendingProperties?.map((property) => (
+                {pendingApprovalProperty?.length > 0 &&
+                  pendingApprovalProperty?.map((property) => (
                     <PendingProperty key={property?._id} property={property} />
                   ))}
-                {pendingProperties?.length === 0 && (
-                  <div className="flex flex-col items-center justify-center">
-                    <h1 className="text-lg font-semibold text-gray-500 mb-2">
-                      Property Not Found
-                    </h1>
-                  </div>
-                )}
+                {pendingApprovalProperty?.length === 0 && <PropertyNotFound />}
+              </div>
+            </div>
+            {/* Recent Booking card */}
+            <div className="bg-white rounded-3xl shadow-lg p-6 mb-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-800">
+                  Recent Bookings
+                </h2>
+                <div className="flex gap-2">
+                  <Button
+                    variant={"link"}
+                    onClick={() => onNavigate("/booking-manage")}
+                    className="text-violet-600 hover:text-violet-700"
+                  >
+                    View All
+                  </Button>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {reservationList?.length > 0 &&
+                  reservationList?.map((property) => (
+                    <ReserveProperty key={property?._id} property={property} />
+                  ))}
+                {reservationList?.length === 0 && <PropertyNotFound />}
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-lg p-6">
-              {/* <h2 className="text-xl font-bold text-gray-800 mb-6">
-                Recent Users
-              </h2> */}
+            {/* <div className="bg-white rounded-3xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-gray-800">
                   Recent Users
@@ -232,37 +229,10 @@ export default function AdminDashboard() {
               </div>
               <div className="space-y-3">
                 {recentUsers?.slice(0, 3)?.map((user) => (
-                  <div
-                    key={user._id}
-                    className="flex items-center justify-between p-4 rounded-xl border-2 border-gray-100 hover:bg-gray-50 transition-colors"
-                  >
-                    <div>
-                      <p className="font-semibold text-gray-800 capitalize">
-                        {user.fullName}
-                      </p>
-                      <p className="text-sm text-gray-500">{user.email}</p>
-                    </div>
-                    <div className="text-right flex flex-col">
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          user.role === USER_ROLE.OWNER
-                            ? "bg-teal-100 text-teal-700"
-                            : user.role === USER_ROLE.ADMIN
-                            ? "bg-pink-100 text-pink-700"
-                            : "bg-violet-100 text-violet-700"
-                        }`}
-                      >
-                        {user.role}
-                      </span>
-                      <span className="text-xs text-gray-500 mt-1">
-                        {moment(user.createdAt).format("DD-MM-yy")}
-                        {/* {user.createdAt} */}
-                      </span>
-                    </div>
-                  </div>
+                  <UserCard key={user._id} user={user} />
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div>
@@ -279,7 +249,6 @@ export default function AdminDashboard() {
                   number={adminDashboardDetail?.pendingReservations}
                   label={"Active Bookings"}
                 />
-                {/* <Stats color={"violet"} number={"96%"} label={"Success Rate"} /> */}
                 <Stats
                   color={"violet"}
                   number={adminDashboardDetail?.successRate + "%"}
@@ -288,7 +257,7 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-lg p-6">
+            {/* <div className="bg-white rounded-3xl shadow-lg p-6">
               <h3 className="text-xl font-bold text-gray-800 mb-4">
                 System Health
               </h3>
@@ -314,6 +283,27 @@ export default function AdminDashboard() {
                     Online
                   </span>
                 </div>
+              </div>
+            </div> */}
+            <div className="bg-white rounded-3xl shadow-lg p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-800">
+                  Recent Users
+                </h2>
+                <div className="flex gap-2">
+                  <Button
+                    variant={"link"}
+                    onClick={() => onNavigate("/admin-users")}
+                    className="text-violet-600 hover:text-violet-700"
+                  >
+                    View All
+                  </Button>
+                </div>
+              </div>
+              <div className="space-y-3">
+                {recentUsers?.slice(0, 3)?.map((user) => (
+                  <UserCard key={user._id} user={user} />
+                ))}
               </div>
             </div>
           </div>

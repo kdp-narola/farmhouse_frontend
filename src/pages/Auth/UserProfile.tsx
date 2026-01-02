@@ -78,7 +78,7 @@ const UserProfile = () => {
           <div className="col-span-3">
             <div className="bg-white rounded-2xl p-6 shadow-sm sticky top-8">
               <div className="relative mb-4">
-                <div className="w-20 h-20 mx-auto bg-gradient-to-br from-teal-500 to-violet-500 rounded-full flex items-center justify-center text-white text-4xl font-bold shadow-lg">
+                <div className="w-20 h-20 mx-auto custom-gradient-teal-violet-1 rounded-full flex items-center justify-center text-white text-4xl font-bold shadow-lg">
                   {authUser?.fullName?.charAt(0)}
                 </div>
               </div>

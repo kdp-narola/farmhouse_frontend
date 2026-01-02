@@ -17,6 +17,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import PropertyNotFound from "@/components/PropertyNotFound";
 
 const SlotBookingDetails = ({ search, filter }) => {
   const [properties, setProperties] = useState([]);
@@ -149,13 +150,7 @@ const SlotBookingDetails = ({ search, filter }) => {
               </AccordionContent>
             </AccordionItem>
           ))}
-        {properties?.length === 0 && (
-          <div className="flex flex-col items-center justify-center">
-            <h1 className="text-xl font-semibold text-gray-500 mb-2">
-              Oops! Property Not Found
-            </h1>
-          </div>
-        )}
+        {properties?.length === 0 && <PropertyNotFound />}
       </Accordion>
     </div>
   );

@@ -102,10 +102,10 @@ export const pendingReservationAction = async (reservationId, userData) => {
   }
 };
 
-export const pendingReservationListing = async (userData) => {
+export const reservationListing = async (userData) => {
   try {
     const response = await axiosInstance.post(
-      `/reservation/pendingReservationDetails`,
+      `/reservation/reservationLists`,
       userData
     );
     return response;

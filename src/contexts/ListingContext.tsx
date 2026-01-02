@@ -1,10 +1,11 @@
 import { dashboardDetails, userRecords } from "@/services/api-routes/admin";
-import { pendingReservationListing } from "@/services/api-routes/booking";
+import { reservationListing } from "@/services/api-routes/booking";
 import { amenitiesList } from "@/services/api-routes/CURD/amenities";
 import {
   categoryList,
   houseRuleList,
   ownrPropertyList,
+  pendingApprovalProperties,
   propertyDetails,
   propertyList,
 } from "@/services/api-routes/property";
@@ -40,11 +41,19 @@ const ListingProvider = ({ children }) => {
   const [userListLoading, setUserListLoading] = useState(false);
   const [userList, setUserList] = useState({});
 
-  const [pendingPropertiesLoading, setPendingPropertiesLoading] =
+  const [reservationListLoading, setReservationListLoading] = useState(false);
+  const [reservationList, setReservationList] = useState([]);
+  const [reservationListPagination, setReservationListPagination] = useState(
+    {}
+  );
+
+  const [pendingApprovalPropertyLoading, setPendingApprovalPropertyLoading] =
     useState(false);
-  const [pendingProperties, setPendingProperties] = useState([]);
-  const [pendingPropertiesPagination, setPendingPropertiesPagination] =
-    useState({});
+  const [pendingApprovalProperty, setPendingApprovalProperty] = useState([]);
+  const [
+    pendingApprovalPropertyPagination,
+    setPendingApprovalPropertyPagination,
+  ] = useState({});
 
   const getPropertyList = async (userData) => {
     setPropertyLoading(true);
@@ -144,16 +153,29 @@ const ListingProvider = ({ children }) => {
     }
   };
 
-  const getPendingApprovalsList = async (userData) => {
-    setPendingPropertiesLoading(true);
+  const getReservationList = async (userData) => {
+    setReservationListLoading(true);
     try {
-      const res = await pendingReservationListing(userData);
-      setPendingProperties(res.data.data.data);
-      setPendingPropertiesPagination(res.data.data.pagination);
+      const res = await reservationListing(userData);
+      setReservationList(res.data.data.data);
+      setReservationListPagination(res.data.data.pagination);
     } catch (error) {
       console.log("error", error);
     } finally {
-      setPendingPropertiesLoading(false);
+      setReservationListLoading(false);
+    }
+  };
+
+  const getpendingApprovalProperties = async (userData) => {
+    setPendingApprovalPropertyLoading(true);
+    try {
+      const res = await pendingApprovalProperties(userData);
+      setPendingApprovalProperty(res.data.data.data);
+      setPendingApprovalPropertyPagination(res.data.data.pagination);
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setPendingApprovalPropertyLoading(false);
     }
   };
 
@@ -186,10 +208,14 @@ const ListingProvider = ({ children }) => {
         userListLoading,
         userList,
         getUserList,
-        pendingPropertiesLoading,
-        pendingPropertiesPagination,
-        pendingProperties,
-        getPendingApprovalsList,
+        reservationListLoading,
+        reservationListPagination,
+        reservationList,
+        getReservationList,
+        pendingApprovalPropertyLoading,
+        pendingApprovalProperty,
+        pendingApprovalPropertyPagination,
+        getpendingApprovalProperties,
       }}
     >
       {children}

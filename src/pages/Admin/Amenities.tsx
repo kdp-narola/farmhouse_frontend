@@ -71,31 +71,6 @@ const Amenities = () => {
   return (
     <div className="">
       <div className="mx-auto p-4 md:p-8">
-        {/* <div className='flex justify-between mb-4'>
-        <div>
-          <h2 className="text-2xl font-bold text-gray-800">Amenities Management</h2>
-          <p className="text-gray-600 text-sm">Manage farmhouse amenities and features</p>
-        </div>
-        <Button onClick={openModal} variant="default" className="bg-white hover:bg-white text-teal-600 hover:text-teal-700">
-          <Plus className="w-5 h-5" />
-          Add New
-        </Button>
-        </div> */}
-        {/* Stats Card */}
-        {/* <div className="bg-gradient-to-r from-teal-500 to-violet-500 rounded-2xl shadow-lg p-6 mb-8 text-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <Utensils className="w-8 h-8" />
-              <p className="text-5xl font-bold mb-1">{amenities?.length}</p>
-              <p className="text-lg opacity-90">Total Amenities</p>
-            </div>
-            <Button onClick={openModal} variant="ghost" className="bg-white hover:bg-white text-teal-600 hover:text-teal-700 rounded-xl flex items-center gap-2">
-              <Plus className="w-5 h-5" />
-              Add New
-            </Button>
-          </div>
-        </div> */}
-
         {/* Amenities Listings ==> list API Integrations */}
         <div className="bg-white rounded-xl shadow-md p-6">
           <div className="flex justify-between items-center mb-4">
@@ -117,7 +92,7 @@ const Amenities = () => {
               return (
                 <div
                   key={amenity?._id}
-                  className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200 hover:shadow-lg transition-all"
+                  className="custom-gradient-gray rounded-xl p-4 border border-gray-200 hover:shadow-lg transition-all"
                 >
                   <div className="flex items-start justify-between mb-1">
                     <div className="bg-teal-100 rounded-lg p-2">

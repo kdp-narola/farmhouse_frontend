@@ -1,14 +1,17 @@
 import Navbar from "@/components/Navbar";
 import Pagination from "@/components/Pagination";
-import ReserveProperty from "@/components/ReserveProperty";
+import PendingProperty from "@/components/PropertyApproval";
 import PropertyNotFound from "@/components/PropertyNotFound";
 import Search from "@/components/Search";
 import { useList } from "@/contexts/ListingContext";
 import { useEffect, useState } from "react";
 
-const ManagePendingBooking = () => {
-  const { reservationList, getReservationList, reservationListPagination } =
-    useList();
+const PropertyApprovalList = () => {
+  const {
+    pendingApprovalProperty,
+    getpendingApprovalProperties,
+    pendingApprovalPropertyPagination,
+  } = useList();
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -21,11 +24,6 @@ const ManagePendingBooking = () => {
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
-
-  console.log(
-    "reservationListPagination?.totalPages from Manage booking",
-    reservationListPagination
-  );
 
   useEffect(() => {
     const payload = {
@@ -43,11 +41,11 @@ const ManagePendingBooking = () => {
       },
       population: [],
     };
-    getReservationList(payload);
+    getpendingApprovalProperties(payload);
   }, [searchTerm, page, limit]);
 
-  const handleMapData = reservationList?.map((property) => (
-    <ReserveProperty key={property?._id} property={property} />
+  const handleMapData = pendingApprovalProperty?.map((property) => (
+    <PendingProperty key={property?._id} property={property} />
   ));
   return (
     <div className="min-h-screen bg-gray-50">
@@ -55,11 +53,9 @@ const ManagePendingBooking = () => {
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-800">
-            Property Management
+            Pending Property Approval
           </h1>
-          <p className="text-sm text-gray-500">
-            Manage the property reservation
-          </p>
+          <p className="text-sm text-gray-500">Manage the pending property</p>
         </div>
 
         <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
@@ -73,24 +69,25 @@ const ManagePendingBooking = () => {
           </div>
         </div>
 
-        {reservationList?.length > 0 && (
+        {pendingApprovalProperty?.length > 0 && (
           <Pagination
             className="space-y-4"
-            data={reservationList}
+            data={pendingApprovalProperty}
             handleFunction={handleMapData}
             handleLimitChange={handleLimitChange}
             handlePageChange={handlePageChange}
             page={page}
             limit={limit}
-            totalPage={reservationListPagination?.totalPages}
-            currentPage={reservationListPagination?.page}
+            totalPage={pendingApprovalPropertyPagination?.totalPages}
+            currentPage={pendingApprovalPropertyPagination?.page}
             displayLimitBtn={true}
           />
         )}
-        {reservationList?.length === 0 && <PropertyNotFound />}
+        {pendingApprovalProperty?.length === 0 && <PropertyNotFound />}
+        {/* </div> */}
       </div>
     </div>
   );
 };
 
-export default ManagePendingBooking;
+export default PropertyApprovalList;
